@@ -4,19 +4,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import { useSelector } from "react-redux";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-    },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
-    },
-}));
-
-export default function StockDisplay({ stockSymbol }) {
-    const classes = useStyles();
+export default function StockDisplay({ stockSymbol, classes }) {
+    const stock = useSelector(store => store.search);
+    console.log(stock);
+    
 
     return (
         <React.Fragment>
@@ -28,23 +21,23 @@ export default function StockDisplay({ stockSymbol }) {
                 >
                     <Typography className={classes.heading}>
                         {stockSymbol}  
-                        Current Price: $  
-                        Day Change: %
+                        Current Price: ${stock.c} 
+                        Day Change: {stock.dp}%
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <List component="nav" aria-label="expanded stock info">
                         <ListItem>
-                            High Price of the Day: $
+                            High Price of the Day: ${stock.h}
                         </ListItem>
                         <ListItem>
-                            High Price of the Day: $
+                            Low Price of the Day: ${stock.l}
                         </ListItem>
                         <ListItem>
-                            High Price of the Day: $
+                            Opening Price: ${stock.o}
                         </ListItem>
                         <ListItem>
-                            High Price of the Day: $
+                            Previous Day Closing Price: ${stock.pc}
                         </ListItem>
                     </List>
                 </AccordionDetails>

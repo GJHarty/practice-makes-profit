@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Button, makeStyles } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 
@@ -24,11 +24,22 @@ export default function SearchPage(props) {
   const [isStockDisplayed, setIsStockDisplayed] = useState(false);
 
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const setStockDetails = () => {
+    dispatch({
+        type: 'FETCH_STOCK_DETAILS',
+        payload: search,
+    });
+  }
 
   const searchOnClick = () => {
     console.log('searching for:', search);
+    setStockDetails();
     setIsStockDisplayed(true);
   }
+
+  
   
   return (
     <div>
@@ -44,10 +55,10 @@ export default function SearchPage(props) {
           {isStockDisplayed ? 
             <StockDisplay 
               stockSymbol={search}
+              classes={classes}
             /> :
             null
           }
-          
         </Container>
       </div>
     </div>
