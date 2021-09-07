@@ -21,6 +21,10 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import CurrentHoldings from '../CurrentHoldings/CurrentHoldings';
+import Search from '../Search/Search';
+import Watchlist from '../Watchlist/Watchlist';
+import HowToUse from '../HowToUse/HowToUse';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +51,38 @@ function App() {
           >
             <AboutPage />
           </Route>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/search"
+          >
+            <Search />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/current-holdings"
+          >
+            <CurrentHoldings />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/watchlist"
+          >
+            <Watchlist />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/how-to-use"
+          >
+            <HowToUse />
+          </ProtectedRoute>
 
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
