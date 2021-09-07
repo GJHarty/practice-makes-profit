@@ -9,11 +9,6 @@ const axios = require('axios');
  * GET route template
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
-  console.log('req.user', req.user);
-  console.log('Symbol', req.query.symbol);
-  let date = new Date();
-  let today = Math.round(Date.now() / 1000);
-
   axios({
     method: 'GET',
     url: 'https://finnhub.io/api/v1/quote',

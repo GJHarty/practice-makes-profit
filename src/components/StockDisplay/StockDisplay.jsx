@@ -5,6 +5,7 @@ import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { useSelector } from "react-redux";
+import HistoryGraph from "../HistoryGraph/HistoryGraph";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,7 @@ export default function StockDisplay({ stockSymbol, classes }) {
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
                         <Grid item xs={6}>
-                            <Grid container justifyContent="left" spacing={2}>
+                            <Grid container spacing={2}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
                                         High Price of the Day: ${stock.h}
@@ -60,7 +61,9 @@ export default function StockDisplay({ stockSymbol, classes }) {
                         </Grid>
                         <Grid item xs={6}>
                             <Grid container spacing={2}>
-                                <p>graph</p>
+                                <HistoryGraph 
+                                    stockSymbol={stockSymbol}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>

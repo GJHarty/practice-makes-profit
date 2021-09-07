@@ -31,6 +31,10 @@ export default function SearchPage(props) {
         type: 'FETCH_STOCK_DETAILS',
         payload: search,
     });
+    dispatch({
+      type: 'FETCH_STOCK_HISTORY',
+      payload: search
+    })
   }
 
   const searchOnClick = () => {
