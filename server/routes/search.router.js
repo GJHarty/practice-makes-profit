@@ -28,8 +28,35 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
-  // POST route code here
+router.post('/', rejectUnauthenticated, (req, res) => {
+  console.log('req.user', req.user);
+  console.log('req.body', req.body);
+  let time = new Date();
+
+  const query = `
+  INSERT INTO "purchasedStocks"
+    ("userId", "stockSymbol", "quantity", "isBoughtOrSold", "timestamp", "price")
+  VALUES
+    ($1, $2, $3, $4, $5, $6);
+  `;
+
+  const params = [
+    req.user.id,
+    req.body.symbol,
+    15,
+    true,
+    time,
+    req.body.price,
+  ];
+  
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('error posting purchased stock', err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;

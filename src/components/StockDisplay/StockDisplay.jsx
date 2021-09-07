@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +24,18 @@ export default function StockDisplay({ stockSymbol, classes }) {
     const stock = useSelector(store => store.search);
     console.log(stock);
     const gridClass = useStyles();
+    const dispatch = useDispatch();
+
+    const purchaseStock = () => {
+        console.log('buying stock');
+        dispatch({
+            type: 'CREATE_PURCHASED_STOCK',
+            payload: {
+                symbol: stockSymbol,
+                price: stock.c
+            },
+        });
+    };
 
     return (
         <React.Fragment>
@@ -69,7 +81,7 @@ export default function StockDisplay({ stockSymbol, classes }) {
                         <Grid item xs={6}>
                             <Grid container spacing={1}>
                                 <Button variant="outlined" color="default">Watch</Button>
-                                <Button variant="contained" color="primary">Buy</Button>
+                                <Button variant="contained" color="primary" onClick={purchaseStock}>Buy</Button>
                             </Grid>
                         </Grid>
                     </Grid>

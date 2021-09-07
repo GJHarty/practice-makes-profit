@@ -14,6 +14,14 @@ function* fetchStockDetails(action) {
     }
 }
 
+function* createPurchasedStock(action) {
+  try {
+    yield axios.post('/api/search', action.payload);
+  } catch (err) {
+    console.log('Stock Details request failed', err);
+  }
+}
+
 function* fetchStockHistory(action) {
   try {
     const response = yield axios.get('/api/history', {params: {symbol: action.payload}});
@@ -29,6 +37,7 @@ function* fetchStockHistory(action) {
   
 function* stockDetailsSaga() {
     yield takeLatest('FETCH_STOCK_DETAILS', fetchStockDetails);
+    yield takeLatest('CREATE_PURCHASED_STOCK', createPurchasedStock);
     yield takeLatest('FETCH_STOCK_HISTORY', fetchStockHistory);
 }
   
