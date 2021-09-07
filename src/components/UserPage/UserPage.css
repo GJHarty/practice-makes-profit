@@ -1,0 +1,10 @@
+.accountDiv {
+    background-color: white;
+    height: 100vh;
+    text-align: center;
+}
+
+.accountBtn {
+    margin: 10px auto 10px;
+    color: red;
+}
