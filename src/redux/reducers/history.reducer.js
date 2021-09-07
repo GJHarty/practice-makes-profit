@@ -1,4 +1,4 @@
-const searchReducer = (state = {}, action) => {
+const searchReducer = (state = {c: [1]}, action) => {
     switch (action.type) {
       case 'SET_STOCK_HISTORY':
         return action.payload;

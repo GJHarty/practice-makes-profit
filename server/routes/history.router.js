@@ -12,7 +12,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     let date = new Date();
     let today = Math.round(Date.now() / 1000);
     console.log('params', req.query.symbol);
-    console.log('today',today);
     axios({
         method: 'GET',
         url: 'https://finnhub.io/api/v1/stock/candle',
@@ -20,11 +19,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
             token: process.env.FIN_API_KEY,
             symbol: req.query.symbol,
             resolution: 'D',
-            from: today - 2629743,
+            from: today - 2629743 * 4,
             to: today,
         }
     }).then(apiRes => {
-        console.log(apiRes.data);
         res.send(apiRes.data);
     }).catch(err => {
         console.log('giphy error', err);

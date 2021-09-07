@@ -1,5 +1,5 @@
 import React from "react"
-import { Typography, List, ListItem, makeStyles, Grid } from "@material-ui/core"
+import { Typography, List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -64,6 +64,12 @@ export default function StockDisplay({ stockSymbol, classes }) {
                                 <HistoryGraph 
                                     stockSymbol={stockSymbol}
                                 />
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid container spacing={1}>
+                                <Button variant="outlined" color="default">Watch</Button>
+                                <Button variant="contained" color="primary">Buy</Button>
                             </Grid>
                         </Grid>
                     </Grid>

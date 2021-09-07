@@ -43,8 +43,6 @@ export default function SearchPage(props) {
     setIsStockDisplayed(true);
   }
 
-  
-  
   return (
     <div>
       <h2>{heading}</h2>
