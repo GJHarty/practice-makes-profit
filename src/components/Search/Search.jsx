@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, TextField, Button, makeStyles } from '@material-ui/core';
+import StockDisplay from '../StockDisplay/StockDisplay';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,11 +21,13 @@ export default function SearchPage(props) {
   
   const [heading, setHeading] = useState('Search Page');
   const [search, setSearch] = useState('');
+  const [isStockDisplayed, setIsStockDisplayed] = useState(false);
 
   const classes = useStyles();
 
   const searchOnClick = () => {
     console.log('searching for:', search);
+    setIsStockDisplayed(true);
   }
   
   return (
@@ -38,6 +41,13 @@ export default function SearchPage(props) {
               <TextField id="standard-basic" label="Enter Ticker" /> 
           </form>
           <Button variant="contained" color="primary" onClick={searchOnClick}>Submit</Button>
+          {isStockDisplayed ? 
+            <StockDisplay 
+              stockSymbol={search}
+            /> :
+            null
+          }
+          
         </Container>
       </div>
     </div>
