@@ -66,6 +66,16 @@ export default function StockDisplay({ stockSymbol, classes }) {
         handleClose();
     };
 
+    const addToWatchlist = () => {
+        console.log('Adding to watchlist');
+        dispatch({
+            type: 'CREATE_WATCHLISTED_STOCK',
+            payload: {
+                symbol: stockSymbol
+            }
+        });
+    };
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -140,7 +150,7 @@ export default function StockDisplay({ stockSymbol, classes }) {
                         </Grid>
                         <Grid item xs={6}>
                             <Grid container spacing={1}>
-                                <Button variant="outlined" color="default">Watch</Button>
+                                <Button variant="outlined" color="default" onClick={addToWatchlist}>Watch</Button>
                                 <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
                             </Grid>
                         </Grid>

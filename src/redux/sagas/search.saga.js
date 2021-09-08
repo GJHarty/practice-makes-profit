@@ -18,7 +18,7 @@ function* createPurchasedStock(action) {
   try {
     yield axios.post('/api/search', action.payload);
   } catch (err) {
-    console.log('Stock Details request failed', err);
+    console.log('Create purchased stock request failed', err);
   }
 }
 
@@ -30,7 +30,15 @@ function* fetchStockHistory(action) {
         payload: response.data
     });
   } catch (err) {
-    console.log('Stock Details request failed', err);
+    console.log('Fetch stock history request failed', err);
+  }
+}
+
+function* createWatchlistedStock(action) {
+  try {
+    yield axios.post('/api/watchlist', action.payload);
+  } catch (err) {
+    console.log('Create watchlisted stock request failed', err);
   }
 }
 
@@ -39,6 +47,7 @@ function* stockDetailsSaga() {
     yield takeLatest('FETCH_STOCK_DETAILS', fetchStockDetails);
     yield takeLatest('CREATE_PURCHASED_STOCK', createPurchasedStock);
     yield takeLatest('FETCH_STOCK_HISTORY', fetchStockHistory);
+    yield takeLatest('CREATE_WATCHLISTED_STOCK', createWatchlistedStock);
 }
   
 export default stockDetailsSaga;
