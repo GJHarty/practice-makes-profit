@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function StockDisplay({ stockSymbol, classes, stockData }) {
+export default function StockDisplay({ stockSymbol, classes, stockData, displayType }) {
     // const stock = useSelector(store => store.search);
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
@@ -59,7 +59,7 @@ export default function StockDisplay({ stockSymbol, classes, stockData }) {
             type: 'CREATE_PURCHASED_STOCK',
             payload: {
                 symbol: stockSymbol,
-                price: stock.c,
+                price: stockData.c,
                 quantity,
             },
         });
@@ -76,6 +76,16 @@ export default function StockDisplay({ stockSymbol, classes, stockData }) {
         });
     };
 
+    const removeFromWatchlist = () => {
+        console.log('removing from watchlist', stockSymbol);
+        dispatch({
+            type: 'DELETE_WATCHLISTED_STOCK',
+            payload: {
+                symbol: stockSymbol
+            }
+        });
+    };
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -84,6 +94,7 @@ export default function StockDisplay({ stockSymbol, classes, stockData }) {
         setOpen(false);
     };
 
+    // Contents of the Purchase Modal. Should be moved to another component later.
     const body = (
         <div style={modalStyle} className={modalClass.paper}>
           <h2 id="simple-modal-title">Purchase</h2>
@@ -148,12 +159,22 @@ export default function StockDisplay({ stockSymbol, classes, stockData }) {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Grid container spacing={1}>
-                                <Button variant="outlined" color="default" onClick={addToWatchlist}>Watch</Button>
-                                <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                        {displayType === "search" &&
+                            <Grid item xs={6}>
+                                <Grid container spacing={1}>
+                                    <Button variant="outlined" color="default" onClick={addToWatchlist}>Watch</Button>
+                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        }
+                        {displayType === "watchlist" &&
+                            <Grid item xs={6}>
+                                <Grid container spacing={1}>
+                                    <Button variant="outlined" color="default" onClick={removeFromWatchlist}>Remove</Button>
+                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                                </Grid>
+                            </Grid>
+                        }
                     </Grid>
                 </AccordionDetails>
             </Accordion>

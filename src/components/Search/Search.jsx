@@ -60,6 +60,7 @@ export default function SearchPage(props) {
               stockSymbol={search}
               classes={classes}
               stockData={stockData}
+              displayType="search"
             /> :
             null
           }

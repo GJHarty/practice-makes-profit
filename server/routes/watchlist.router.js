@@ -38,6 +38,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
       console.log('error posting watchlisted stock', err);
       res.sendStatus(500);
     });
-})
+});
+
+router.delete('/', rejectUnauthenticated, (req, res) => {
+  console.log('id to delete', req.user.id);
+  console.log('symbol to delete', req.body.symbol);
+  const query =`
+  DELETE FROM "watchlistedStocks"
+  WHERE "userId"=$1 AND "stockSymbol"=$2;
+  `;
+  const params = [req.user.id, req.body.symbol];
+
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      console.log('error deleting watchlisted stock', err);
+      res.sendStatus(500);
+    })
+});
 
 module.exports = router;

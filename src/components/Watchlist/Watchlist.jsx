@@ -47,6 +47,7 @@ export default function Watchlist(props) {
           stockSymbol={stock.stockSymbol}
           classes={classes}
           stockData={stock.data}
+          displayType="watchlist"
         />
       ))}
     </div>
