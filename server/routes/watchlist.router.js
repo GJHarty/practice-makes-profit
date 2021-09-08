@@ -5,26 +5,16 @@ const router = express.Router();
 const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 const axios = require('axios');
 
-router.post('/', rejectUnauthenticated, (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('req.user', req.user);
-    console.log('req.body', req.body);
-    let time = new Date();
+    const query = `SELECT * FROM "watchlistedStocks" WHERE "userId"=$1;`;
   
-    const query = `
-    INSERT INTO "watchlistedStocks"
-      ("userId", "stockSymbol")
-    VALUES
-      ($1, $2);
-    `;
-  
-    const params = [
-      req.user.id,
-      req.body.symbol,
-    ];
+    const params = [req.user.id];
     
     pool.query(query, params)
       .then(dbRes => {
-        res.sendStatus(201);
+        console.log(dbRes.rows);
+        res.send(dbRes.rows);
       })
       .catch(err => {
         console.log('error posting purchased stock', err);
