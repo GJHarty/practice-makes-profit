@@ -43,7 +43,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   const params = [
     req.user.id,
     req.body.symbol,
-    15,
+    req.body.quantity,
     true,
     time,
     req.body.price,

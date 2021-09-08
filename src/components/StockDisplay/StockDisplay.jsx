@@ -1,5 +1,6 @@
 import React from "react"
-import { Typography, List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
+import { useState } from 'react';
+import { Typography, List, ListItem, makeStyles, Grid, Button, Modal, TextField } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -7,7 +8,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
 
-const useStyles = makeStyles((theme) => ({
+const gridStyle = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
@@ -20,11 +21,37 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      position: 'absolute',
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+  }));
+
 export default function StockDisplay({ stockSymbol, classes }) {
     const stock = useSelector(store => store.search);
-    console.log(stock);
-    const gridClass = useStyles();
+    const user = useSelector((store) => store.user);
+    const gridClass = gridStyle();
+    const modalClass = useStyles();
     const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+    const [modalStyle] = useState(getModalStyle);
+    const [quantity, setQuantity] = useState(0);
 
     const purchaseStock = () => {
         console.log('buying stock');
@@ -32,10 +59,43 @@ export default function StockDisplay({ stockSymbol, classes }) {
             type: 'CREATE_PURCHASED_STOCK',
             payload: {
                 symbol: stockSymbol,
-                price: stock.c
+                price: stock.c,
+                quantity,
             },
         });
+        handleClose();
     };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const body = (
+        <div style={modalStyle} className={modalClass.paper}>
+          <h2 id="simple-modal-title">Purchase</h2>
+          <div id="simple-modal-description">
+            <p>Available Funds: ${user.availableBalance}</p>
+            <p>Current/Market Stock Price: ${stock.c}</p>
+            <h3>Please select quantity</h3>
+            <Grid container className={gridClass.root} spacing={2}>
+                <Grid item xs={4}>
+                    <p>Total Cost: ${quantity * stock.c}</p>
+                </Grid>
+                <Grid item xs={4}>
+                    <p>Remaining Balance: ${user.availableBalance - (quantity * stock.c)}</p>
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField label="Quantity" value={quantity} onChange={event => setQuantity(event.target.value)}/>
+                </Grid>
+            </Grid>
+          </div>
+          <button onClick={purchaseStock}>Confirm</button>
+        </div>
+    );
 
     return (
         <React.Fragment>
@@ -81,12 +141,20 @@ export default function StockDisplay({ stockSymbol, classes }) {
                         <Grid item xs={6}>
                             <Grid container spacing={1}>
                                 <Button variant="outlined" color="default">Watch</Button>
-                                <Button variant="contained" color="primary" onClick={purchaseStock}>Buy</Button>
+                                <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
                             </Grid>
                         </Grid>
                     </Grid>
                 </AccordionDetails>
             </Accordion>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {body}
+            </Modal>
         </React.Fragment>
     )
 }
