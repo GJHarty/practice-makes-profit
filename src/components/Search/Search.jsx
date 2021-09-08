@@ -19,6 +19,7 @@ export default function SearchPage(props) {
   const store = useSelector((store) => store);
   const user = useSelector((store) => store.user);
   const stockData = useSelector(store => store.search);
+  const history = useSelector(store => store.history);
   
   const [heading, setHeading] = useState('Search Page');
   const [search, setSearch] = useState('');
@@ -61,6 +62,7 @@ export default function SearchPage(props) {
               classes={classes}
               stockData={stockData}
               displayType="search"
+              stockHistory={history}
             /> :
             null
           }

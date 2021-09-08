@@ -9,7 +9,6 @@ const axios = require('axios');
  * GET route template
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
-  console.log(req.query.symbol);
   axios({
     method: 'GET',
     url: 'https://finnhub.io/api/v1/quote',
@@ -18,7 +17,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
       symbol: req.query.symbol,
     },
   }).then(apiRes => {
-    console.log('apiRes.data', apiRes.data);
     res.send(apiRes.data);
   }).catch(err => {
     console.log('finnhub error', err);

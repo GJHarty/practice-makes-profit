@@ -21,24 +21,10 @@ function* createPurchasedStock(action) {
     console.log('Create purchased stock request failed', err);
   }
 }
-
-function* fetchStockHistory(action) {
-  try {
-    const response = yield axios.get('/api/history', {params: {symbol: action.payload}});
-    yield put({
-        type: 'SET_STOCK_HISTORY',
-        payload: response.data
-    });
-  } catch (err) {
-    console.log('Fetch stock history request failed', err);
-  }
-}
-
   
 function* stockDetailsSaga() {
     yield takeLatest('FETCH_STOCK_DETAILS', fetchStockDetails);
     yield takeLatest('CREATE_PURCHASED_STOCK', createPurchasedStock);
-    yield takeLatest('FETCH_STOCK_HISTORY', fetchStockHistory);
 }
   
 export default stockDetailsSaga;

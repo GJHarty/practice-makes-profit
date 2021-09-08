@@ -20,13 +20,10 @@ export default function Watchlist(props) {
   // Using hooks we're creating local state for a "heading" variable with
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
-  const watchlist = useSelector(store => store.watchlist);
   const detailedWatchlist = useSelector(store => store.detailedWatchlist);
   const dispatch = useDispatch();
   const [heading, setHeading] = useState('Watchlist');
   const classes = useStyles();
-  
-  let stockList = [];
 
   useEffect(() => {
     dispatch({
@@ -47,6 +44,7 @@ export default function Watchlist(props) {
           stockSymbol={stock.stockSymbol}
           classes={classes}
           stockData={stock.data}
+          stockHistory={stock.history}
           displayType="watchlist"
         />
       ))}

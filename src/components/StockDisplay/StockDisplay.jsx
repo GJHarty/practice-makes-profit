@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function StockDisplay({ stockSymbol, classes, stockData, displayType }) {
+export default function StockDisplay({ stockSymbol, classes, stockData, displayType, stockHistory }) {
     // const stock = useSelector(store => store.search);
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
@@ -156,6 +156,7 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                             <Grid container spacing={2}>
                                 <HistoryGraph 
                                     stockSymbol={stockSymbol}
+                                    stockHistory={stockHistory}
                                 />
                             </Grid>
                         </Grid>

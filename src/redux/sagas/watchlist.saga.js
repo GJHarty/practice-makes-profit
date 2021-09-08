@@ -39,18 +39,19 @@ function* fetchWatchlist() {
 function* setDetailedWatchlist(symbol) {
   try {
       const response = yield axios.get('/api/search', {params: {symbol}});
+      const historyResponse = yield axios.get('/api/history', {params: {symbol}});
       yield put({
           type: 'SET_DETAILED_WATCHLIST',
           payload: {
             stockSymbol: symbol,
             data: response.data,
+            history: historyResponse.data.c
           }
       });
     } catch (err) {
       console.log('Create watchlisted stock request failed', err);
   }
 }
-
 
 function* watchlistSaga() {
   yield takeLatest('CREATE_WATCHLISTED_STOCK', createWatchlistedStock);

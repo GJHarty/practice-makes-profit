@@ -1,16 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
+import { useEffect } from 'react';
 
 
-export default function HistoryGraph({ stockSymbol }) {
-  const history = useSelector(store => store.history);
+export default function HistoryGraph({ stockSymbol, stockHistory }) {
+  const dispatch = useDispatch();
 
-  const closeData = history.c;
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_STOCK_HISTORY',
+      payload: stockSymbol
+    });
+  }, []);
   
   const createLabels = () => {
     let emptyLabel = [];
-    for (let i = 0; i < closeData.length; i++) {
+    for (let i = 0; i < stockHistory.length; i++) {
         emptyLabel.push(i+1);
     };
     return emptyLabel;
@@ -26,7 +32,7 @@ export default function HistoryGraph({ stockSymbol }) {
         backgroundColor: 'rgba(75,192,192,1)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 1,
-        data: closeData,
+        data: stockHistory,
       }
     ]
   };
