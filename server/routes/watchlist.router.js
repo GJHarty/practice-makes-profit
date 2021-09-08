@@ -20,6 +20,24 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         console.log('error posting purchased stock', err);
         res.sendStatus(500);
       });
-  });
+});
+
+router.post('/', rejectUnauthenticated, (req, res) => {
+  const query = `
+  INSERT INTO "watchlistedStocks" 
+    ("userId", "stockSymbol")
+  VALUES
+    ($1, $2);
+  `;
+  const params = [req.user.id, req.body.symbol];
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('error posting watchlisted stock', err);
+      res.sendStatus(500);
+    });
+})
 
 module.exports = router;

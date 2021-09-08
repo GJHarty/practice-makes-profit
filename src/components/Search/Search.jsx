@@ -18,6 +18,7 @@ export default function SearchPage(props) {
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
   const user = useSelector((store) => store.user);
+  const stockData = useSelector(store => store.search);
   
   const [heading, setHeading] = useState('Search Page');
   const [search, setSearch] = useState('');
@@ -58,6 +59,7 @@ export default function SearchPage(props) {
             <StockDisplay 
               stockSymbol={search}
               classes={classes}
+              stockData={stockData}
             /> :
             null
           }

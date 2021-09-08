@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const searchRouter = require('./routes/search.router');
 const watchlistRouter = require('./routes/watchlist.router');
 const historyRouter = require('./routes/history.router');
+const stockListRouter = require('./routes/stockList.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use('/api/user', userRouter);
 app.use('/api/search', searchRouter);
 app.use('/api/watchlist', watchlistRouter);
 app.use('/api/history', historyRouter);
+app.use('/api/stock-list', stockListRouter);
 
 // Serve static files
 app.use(express.static('build'));

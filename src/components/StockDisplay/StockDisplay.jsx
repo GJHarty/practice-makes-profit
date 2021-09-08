@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function StockDisplay({ stockSymbol, classes }) {
-    const stock = useSelector(store => store.search);
+export default function StockDisplay({ stockSymbol, classes, stockData }) {
+    // const stock = useSelector(store => store.search);
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
     const modalClass = useStyles();
@@ -89,14 +89,14 @@ export default function StockDisplay({ stockSymbol, classes }) {
           <h2 id="simple-modal-title">Purchase</h2>
           <div id="simple-modal-description">
             <p>Available Funds: ${user.availableBalance}</p>
-            <p>Current/Market Stock Price: ${stock.c}</p>
+            <p>Current/Market Stock Price: ${stockData.c}</p>
             <h3>Please select quantity</h3>
             <Grid container className={gridClass.root} spacing={2}>
                 <Grid item xs={4}>
-                    <p>Total Cost: ${quantity * stock.c}</p>
+                    <p>Total Cost: ${quantity * stockData.c}</p>
                 </Grid>
                 <Grid item xs={4}>
-                    <p>Remaining Balance: ${user.availableBalance - (quantity * stock.c)}</p>
+                    <p>Remaining Balance: ${user.availableBalance - (quantity * stockData.c)}</p>
                 </Grid>
                 <Grid item xs={4}>
                     <TextField label="Quantity" value={quantity} onChange={event => setQuantity(event.target.value)}/>
@@ -117,8 +117,8 @@ export default function StockDisplay({ stockSymbol, classes }) {
                 >
                     <Typography className={classes.heading}>
                         {stockSymbol}  
-                        Current Price: ${stock.c} 
-                        Day Change: {stock.dp}%
+                        Current Price: ${stockData.c} 
+                        Day Change: {stockData.dp}%
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -127,16 +127,16 @@ export default function StockDisplay({ stockSymbol, classes }) {
                             <Grid container spacing={2}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
-                                        High Price of the Day: ${stock.h}
+                                        High Price of the Day: ${stockData.h}
                                     </ListItem>
                                     <ListItem>
-                                        Low Price of the Day: ${stock.l}
+                                        Low Price of the Day: ${stockData.l}
                                     </ListItem>
                                     <ListItem>
-                                        Opening Price: ${stock.o}
+                                        Opening Price: ${stockData.o}
                                     </ListItem>
                                     <ListItem>
-                                        Previous Day Closing Price: ${stock.pc}
+                                        Previous Day Closing Price: ${stockData.pc}
                                     </ListItem>
                                 </List>
                             </Grid>
