@@ -50,4 +50,23 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/', rejectUnauthenticated, (req,res) => {
+  console.log('update balance payload', req.body);
+  const reducedBalance = req.body.availableBalance - req.body.totalCost;
+  const query = `
+  UPDATE "user"
+  SET "availableBalance" = $1
+  WHERE "id"=$2;
+  `;
+  const params = [reducedBalance, req.user.id];
+
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

@@ -24,8 +24,18 @@ function* fetchUser() {
   }
 }
 
+function* updateBalances(action) {
+  try {
+    yield axios.put('/api/user', action.payload);
+    fetchUser();
+  } catch (err) {
+    console.log('Balance update failed', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('UPDATE_BALANCES', updateBalances);
 }
 
 export default userSaga;

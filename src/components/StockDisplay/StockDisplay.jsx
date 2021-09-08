@@ -7,6 +7,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
+import { useEffect } from "react";
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -52,6 +53,13 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
     const [open, setOpen] = useState(false);
     const [modalStyle] = useState(getModalStyle);
     const [quantity, setQuantity] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
+
+    useEffect(() => {
+        if (quantity > 0){
+            setTotalCost(parseFloat(stockData.c * quantity).toFixed(2));
+        }   
+    }, [quantity]);
 
     const purchaseStock = () => {
         console.log('buying stock');
@@ -62,6 +70,13 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                 price: stockData.c,
                 quantity,
             },
+        });
+        dispatch({
+            type: 'UPDATE_BALANCES',
+            payload: {
+                totalCost,
+                availableBalance: user.availableBalance,
+            }
         });
         handleClose();
     };
@@ -104,10 +119,10 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
             <h3>Please select quantity</h3>
             <Grid container className={gridClass.root} spacing={2}>
                 <Grid item xs={4}>
-                    <p>Total Cost: ${quantity * stockData.c}</p>
+                    <p>Total Cost: ${totalCost}</p>
                 </Grid>
                 <Grid item xs={4}>
-                    <p>Remaining Balance: ${user.availableBalance - (quantity * stockData.c)}</p>
+                    <p>Remaining Balance: ${user.availableBalance - totalCost}</p>
                 </Grid>
                 <Grid item xs={4}>
                     <TextField label="Quantity" value={quantity} onChange={event => setQuantity(event.target.value)}/>
