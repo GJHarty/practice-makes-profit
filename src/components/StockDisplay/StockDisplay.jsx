@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function StockDisplay({ stockSymbol, classes, stockData, displayType, stockHistory }) {
+export default function StockDisplay({ stockSymbol, classes, stockData, displayType, stockHistory, dbData }) {
     // const stock = useSelector(store => store.search);
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
@@ -142,9 +142,19 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading}>
-                        {stockSymbol}  
-                        Current Price: ${stockData.c} 
+                        {stockSymbol}  &nbsp;
+                        Current Price: ${stockData.c} &nbsp;
                         Day Change: {stockData.dp}%
+                        {!dbData ? 
+                            null : 
+                            <div>
+                                <p>
+                                    Quantity Owned: {dbData.totalQuantity} &nbsp;
+                                    Price at Purchase: ${dbData.price} &nbsp;
+                                    Total Value: ${dbData.price * dbData.totalQuantity}
+                                </p>
+                            </div>
+                        }
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

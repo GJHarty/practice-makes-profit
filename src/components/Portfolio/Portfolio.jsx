@@ -21,7 +21,6 @@ export default function Portfolio() {
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
   const detailedPortfolio = store.detailedPortfolio;
-  const portfolio = store.portfolio;
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -29,7 +28,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     dispatch({
-        type: 'CLEAR_PORTFOLIO'
+        type: 'CLEAR_DETAILED_PORTFOLIO'
       });
     dispatch({
       type: 'FETCH_PORTFOLIO',
@@ -47,6 +46,7 @@ export default function Portfolio() {
           classes={classes}
           stockData={stock.data}
           stockHistory={stock.history}
+          dbData={stock.dbData}
           displayType="portfolio"
         />
       ))}

@@ -4,31 +4,33 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 function* fetchPortfolio() {
     try {
       const response = yield axios.get('/api/portfolio');
+      // check to see if we need this
       yield put({
           type: 'SET_PORTFOLIO',
           payload: response.data,
       });
-      yield all(response.data.map(stock => call(setDetailedPortfolio, stock.stockSymbol)));
+      yield all(response.data.map(stock => call(setDetailedPortfolio, stock)));
   
     } catch (err) {
       console.log('Create watchlisted stock request failed', err);
     }
   }
 
-function* setDetailedPortfolio(symbol) {
+function* setDetailedPortfolio(stock) {
   try {
-      const response = yield axios.get('/api/search', {params: {symbol}});
-      const historyResponse = yield axios.get('/api/history', {params: {symbol}});
+      const response = yield axios.get('/api/search', {params: {symbol: stock.stockSymbol}});
+      const historyResponse = yield axios.get('/api/history', {params: {symbol: stock.stockSymbol}});
       yield put({
           type: 'SET_DETAILED_PORTFOLIO',
           payload: {
-            stockSymbol: symbol,
+            stockSymbol: stock.stockSymbol,
+            dbData: stock,
             data: response.data,
             history: historyResponse.data.c
           }
       });
     } catch (err) {
-      console.log('Create watchlisted stock request failed', err);
+      console.log('Create detailed portfolio request failed', err);
   }
 }
 
