@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Watchlist(props) {
+export default function Watchlist() {
   // Using hooks we're creating local state for a "heading" variable with
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
@@ -27,8 +27,8 @@ export default function Watchlist(props) {
 
   useEffect(() => {
     dispatch({
-      type: 'CLEAR_DETAILED_WATCHLIST',
-    });
+        type: 'CLEAR_DETAILED_WATCHLIST'
+      });
     dispatch({
       type: 'FETCH_WATCHLIST',
     });
@@ -38,6 +38,7 @@ export default function Watchlist(props) {
   return (
     <div>
       <h2>{heading}</h2>
+      <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
       {detailedWatchlist.map(stock => (
         <StockDisplay 
           key={stock.stockSymbol}
@@ -48,6 +49,7 @@ export default function Watchlist(props) {
           displayType="watchlist"
         />
       ))}
+      </Container>
     </div>
   );
 }

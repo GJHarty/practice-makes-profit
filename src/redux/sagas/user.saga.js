@@ -27,7 +27,6 @@ function* fetchUser() {
 function* updateBalances(action) {
   try {
     yield axios.put('/api/user', action.payload);
-    fetchUser();
   } catch (err) {
     console.log('Balance update failed', err);
   }

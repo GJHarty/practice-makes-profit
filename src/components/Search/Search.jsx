@@ -13,21 +13,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchPage(props) {
-  // Using hooks we're creating local state for a "heading" variable with
-  // a default value of 'Functional Component'
+export default function SearchPage() {
   const store = useSelector((store) => store);
   const user = useSelector((store) => store.user);
   const stockData = useSelector(store => store.search);
   const history = useSelector(store => store.history);
+
+  const classes = useStyles();
+  const dispatch = useDispatch();
   
   const [heading, setHeading] = useState('Search Page');
   const [search, setSearch] = useState('');
   const [isStockDisplayed, setIsStockDisplayed] = useState(false);
 
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
+  // we need to grab just a single stock on the search page 
   const setStockDetails = () => {
     dispatch({
         type: 'FETCH_STOCK_DETAILS',

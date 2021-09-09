@@ -3,7 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import search from './search.reducer';
 import history from './history.reducer';
-import watchlist from './watchlist.reducer';
+// import watchlist from './watchlist.reducer';
 import detailedWatchlist from './detailedWatchlist';
 
 // rootReducer is the primary reducer for our entire project
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   search,
   history,
-  watchlist,
+  // watchlist,
   detailedWatchlist,
 });
 
