@@ -43,13 +43,12 @@ export default function PurchaseModal({
     setQuantity
 }) {
     const classes = useStyles();
-    const [totalCost, setTotalCost] = useState(0);
     const gridClass = gridStyle();
 
+    const [totalCost, setTotalCost] = useState(0);
+
     useEffect(() => {
-        if (quantity > 0){
-            setTotalCost(parseFloat(stockData.c * quantity).toFixed(2));
-        }   
+        setTotalCost(stockData.c * quantity);
     }, [quantity]);
 
   return (

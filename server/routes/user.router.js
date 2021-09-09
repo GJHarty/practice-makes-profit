@@ -52,13 +52,21 @@ router.post('/logout', (req, res) => {
 
 router.put('/', rejectUnauthenticated, (req,res) => {
   console.log('update balance payload', req.body);
-  const reducedBalance = req.body.availableBalance - req.body.totalCost;
+
+  let updatedBalance;
+
+  if (req.body.operator === 'decrease'){
+    updatedBalance = req.body.availableBalance - req.body.totalCost;
+  } else if (req.body.operator === 'increase'){
+    updatedBalance = req.body.availableBalance + req.body.totalCost;
+  }
+
   const query = `
   UPDATE "user"
   SET "availableBalance" = $1
   WHERE "id"=$2;
   `;
-  const params = [reducedBalance, req.user.id];
+  const params = [updatedBalance, req.user.id];
 
   pool.query(query, params)
     .then(dbRes => {

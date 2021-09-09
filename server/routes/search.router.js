@@ -43,7 +43,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     req.user.id,
     req.body.symbol,
     req.body.quantity,
-    true,
+    req.body.isBoughtOrSold,
     time,
     req.body.price,
   ];

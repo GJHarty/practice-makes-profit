@@ -14,7 +14,7 @@ function* fetchStockDetails(action) {
     }
 }
 
-function* createPurchasedStock(action) {
+function* createStock(action) {
   try {
     yield axios.post('/api/search', action.payload);
   } catch (err) {
@@ -24,7 +24,7 @@ function* createPurchasedStock(action) {
   
 function* stockDetailsSaga() {
     yield takeLatest('FETCH_STOCK_DETAILS', fetchStockDetails);
-    yield takeLatest('CREATE_PURCHASED_STOCK', createPurchasedStock);
+    yield takeLatest('CREATE_STOCK', createStock);
 }
   
 export default stockDetailsSaga;

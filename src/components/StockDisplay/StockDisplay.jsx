@@ -1,15 +1,16 @@
 import React from "react"
 import { useState } from 'react';
-import { Typography, List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
+import { List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
-import { useEffect } from "react";
 import round from "../../round";
 import PurchaseModal from "../TransactionModals/PurchaseModal";
+import SellModal from "../TransactionModals/SellModal";
+import { useEffect } from "react";
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -38,42 +39,71 @@ export default function StockDisplay({
     const [quantity, setQuantity] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
     const [purchaseOpen, setPurchaseOpen] = useState(false);
+    const [sellOpen, setSellOpen] = useState(false);
 
     useEffect(() => {
-        if (quantity > 0){
-            setTotalCost(round(stockData.c * quantity));
-        }   
+        setTotalCost(quantity * stockData.c);
     }, [quantity]);
 
     const purchaseStock = () => {
         console.log('buying stock');
         dispatch({
-            type: 'CREATE_PURCHASED_STOCK',
+            type: 'CREATE_STOCK',
             payload: {
                 symbol: stockSymbol,
                 price: stockData.c,
                 quantity,
+                isBoughtOrSold: true,
             },
         });
         dispatch({
-            type: 'UPDATE_BALANCES',
+            type: 'DECREASE_BALANCES',
             payload: {
                 totalCost,
                 availableBalance: user.availableBalance,
+                operator: 'decrease',
             }
         });
         handlePurchaseModalClose();
     };
+
     const handlePurchaseModalOpen = () => {
         setPurchaseOpen(true);
     }
+
     const handlePurchaseModalClose = () => {
         setPurchaseOpen(false);
     }
 
     const sellStock = () => {
         console.log('selling stock');
+        dispatch({
+            type: 'CREATE_STOCK',
+            payload: {
+                symbol: stockSymbol,
+                price: stockData.c,
+                quantity: quantity,
+                isBoughtOrSold: false
+            },
+        });
+        dispatch({
+            type: 'INCREASE_BALANCES',
+            payload: {
+                totalCost,
+                availableBalance: user.availableBalance,
+                operator: 'increase',
+            }
+        });
+        handleSellModalClose();
     };
+
+    const handleSellModalOpen = () => {
+        setSellOpen(true);
+    }
+
+    const handleSellModalClose = () => {
+        setSellOpen(false);
+    }
 
     const addToWatchlist = () => {
         console.log('Adding to watchlist');
@@ -108,13 +138,22 @@ export default function StockDisplay({
                 quantity={quantity}
                 setQuantity={setQuantity}
             />
+            <SellModal
+                sellOpen={sellOpen}
+                user={user}
+                stockData={stockData}
+                sellStock={sellStock}
+                handleSellModalClose={handleSellModalClose}
+                quantity={quantity}
+                setQuantity={setQuantity}
+            />
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     arie-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={classes.heading}>
+                    <div className={classes.heading}>
                         {stockSymbol}  &nbsp;
                         Current Price: ${round(stockData.c)} &nbsp;
                         Day Change: {round(stockData.dp)}%
@@ -127,7 +166,7 @@ export default function StockDisplay({
                                 </p>
                             </div>
                         }
-                    </Typography>
+                    </div>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
@@ -203,7 +242,7 @@ export default function StockDisplay({
                                     <Button 
                                         variant="outlined" 
                                         color="default" 
-                                        onClick={sellStock}
+                                        onClick={handleSellModalOpen}
                                     >
                                         Sell
                                     </Button>

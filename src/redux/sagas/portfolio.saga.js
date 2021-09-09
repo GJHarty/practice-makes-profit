@@ -34,8 +34,17 @@ function* setDetailedPortfolio(stock) {
   }
 }
 
+function* createSoldStock(action) {
+  try {
+    yield axios.post('/api/portfolio', action.payload);
+  } catch (err) {
+    console.log('Create purchased stock request failed', err);
+  }
+}
+
 function* portfolioSaga() {
     yield takeLatest('FETCH_PORTFOLIO', fetchPortfolio);
+    yield takeLatest('CREATE_SOLD_STOCK', createSoldStock);
 }
   
 export default portfolioSaga;
