@@ -13,6 +13,7 @@ function* deleteWatchlistedStock(action) {
   try {
     console.log('delete payload', action.payload);
     yield axios.delete('/api/watchlist', {data: action.payload});
+    yield put({ type: 'CLEAR_DETAILED_WATCHLIST'})
     yield fetchWatchlist();
   } catch (err) {
     console.log('Create watchlisted stock request failed', err);
