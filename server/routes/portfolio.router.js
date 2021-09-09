@@ -10,11 +10,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     const query = `
     SELECT
         "stockSymbol",
-        "price",
+        AVG("price") as "avgPrice",
+        sum("quantity" * "price") as "totalHoldings",
         sum("quantity") as "totalQuantity" 
     FROM "purchasedStocks"
     WHERE "userId"=$1
-    GROUP BY "stockSymbol","price";
+    GROUP BY "stockSymbol";
     `;
   
     const params = [req.user.id];

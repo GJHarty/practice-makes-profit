@@ -8,6 +8,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
 import { useEffect } from "react";
+import round from "../../round";
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -118,15 +119,15 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
         <div style={modalStyle} className={modalClass.paper}>
           <h2 id="simple-modal-title">Purchase</h2>
           <div id="simple-modal-description">
-            <p>Available Funds: ${user.availableBalance}</p>
-            <p>Current/Market Stock Price: ${stockData.c}</p>
+            <p>Available Funds: ${round(user.availableBalance)}</p>
+            <p>Current/Market Stock Price: ${round(stockData.c)}</p>
             <h3>Please select quantity</h3>
             <Grid container className={gridClass.root} spacing={2}>
                 <Grid item xs={4}>
-                    <p>Total Cost: ${totalCost}</p>
+                    <p>Total Cost: ${round(totalCost)}</p>
                 </Grid>
                 <Grid item xs={4}>
-                    <p>Remaining Balance: ${user.availableBalance - totalCost}</p>
+                    <p>Remaining Balance: ${round(user.availableBalance - totalCost)}</p>
                 </Grid>
                 <Grid item xs={4}>
                     <TextField label="Quantity" value={quantity} onChange={event => setQuantity(event.target.value)}/>
@@ -147,15 +148,14 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                 >
                     <Typography className={classes.heading}>
                         {stockSymbol}  &nbsp;
-                        Current Price: ${stockData.c} &nbsp;
-                        Day Change: {stockData.dp}%
-                        {!dbData ? 
-                            null : 
+                        Current Price: ${round(stockData.c)} &nbsp;
+                        Day Change: {round(stockData.dp)}%
+                        {dbData &&
                             <div>
                                 <p>
                                     Quantity Owned: {dbData.totalQuantity} &nbsp;
-                                    Price at Purchase: ${dbData.price} &nbsp;
-                                    Total Value: ${dbData.price * dbData.totalQuantity}
+                                    Average Purchase Price: ${round(dbData.avgPrice)} &nbsp;
+                                    Total Holdings: ${round(dbData.totalHoldings)}
                                 </p>
                             </div>
                         }
@@ -167,16 +167,16 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                             <Grid container spacing={2}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
-                                        High Price of the Day: ${stockData.h}
+                                        High Price of the Day: ${round(stockData.h)}
                                     </ListItem>
                                     <ListItem>
-                                        Low Price of the Day: ${stockData.l}
+                                        Low Price of the Day: ${round(stockData.l)}
                                     </ListItem>
                                     <ListItem>
-                                        Opening Price: ${stockData.o}
+                                        Opening Price: ${round(stockData.o)}
                                     </ListItem>
                                     <ListItem>
-                                        Previous Day Closing Price: ${stockData.pc}
+                                        Previous Day Closing Price: ${round(stockData.pc)}
                                     </ListItem>
                                 </List>
                             </Grid>
