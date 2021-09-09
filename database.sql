@@ -27,3 +27,6 @@ CREATE TABLE "watchlistedStocks" (
     "userId" INT REFERENCES "users" ON DELETE CASCADE,
     "stockSymbol" VARCHAR(10) NOT NULL
 );
+
+SELECT * FROM "purchasedStocks"
+WHERE userId=1;

@@ -21,10 +21,10 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
-import CurrentHoldings from '../CurrentHoldings/CurrentHoldings';
 import Search from '../Search/Search';
 import Watchlist from '../Watchlist/Watchlist';
 import HowToUse from '../HowToUse/HowToUse';
+import Portfolio from '../Portfolio/Portfolio';
 
 function App() {
   const dispatch = useDispatch();
@@ -63,9 +63,9 @@ function App() {
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
-            path="/current-holdings"
+            path="/portfolio"
           >
-            <CurrentHoldings />
+            <Portfolio />
           </ProtectedRoute>
 
           <ProtectedRoute

@@ -22,9 +22,6 @@ function* deleteWatchlistedStock(action) {
 function* fetchWatchlist() {
   try {
     const response = yield axios.get('/api/watchlist');
-    // yield put({
-    //   type: 'CLEAR_DETAILED_WATCHLIST'
-    // })
     yield put({
         type: 'SET_WATCHLIST',
         payload: response.data,

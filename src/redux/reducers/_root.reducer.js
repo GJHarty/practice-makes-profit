@@ -5,6 +5,8 @@ import search from './search.reducer';
 import history from './history.reducer';
 // import watchlist from './watchlist.reducer';
 import detailedWatchlist from './detailedWatchlist';
+import portfolio from './portfolio.reducer'
+import detailedPortfolio from './detailedPortfolio.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   history,
   // watchlist,
   detailedWatchlist,
+  portfolio,
+  detailedPortfolio,
 });
 
 export default rootReducer;

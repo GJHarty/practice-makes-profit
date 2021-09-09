@@ -13,6 +13,7 @@ const searchRouter = require('./routes/search.router');
 const watchlistRouter = require('./routes/watchlist.router');
 const historyRouter = require('./routes/history.router');
 const stockListRouter = require('./routes/stockList.router');
+const portfolioRouter = require('./routes/portfolio.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -31,6 +32,7 @@ app.use('/api/search', searchRouter);
 app.use('/api/watchlist', watchlistRouter);
 app.use('/api/history', historyRouter);
 app.use('/api/stock-list', stockListRouter);
+app.use('/api/portfolio', portfolioRouter);
 
 // Serve static files
 app.use(express.static('build'));
