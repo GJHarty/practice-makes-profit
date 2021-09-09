@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from 'react';
-import { Typography, List, ListItem, makeStyles, Grid, Button, Modal, TextField } from "@material-ui/core"
+import { Typography, List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import HistoryGraph from "../HistoryGraph/HistoryGraph";
 import { useEffect } from "react";
 import round from "../../round";
+import PurchaseModal from "../TransactionModals/PurchaseModal";
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -23,42 +24,24 @@ const gridStyle = makeStyles((theme) => ({
     },
 }));
 
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }));
-
-export default function StockDisplay({ stockSymbol, classes, stockData, displayType, stockHistory, dbData }) {
-    // const stock = useSelector(store => store.search);
+export default function StockDisplay({ 
+    stockSymbol, 
+    classes, 
+    stockData, 
+    displayType, 
+    stockHistory, 
+    dbData 
+}) {
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
-    const modalClass = useStyles();
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(false);
-    const [modalStyle] = useState(getModalStyle);
     const [quantity, setQuantity] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+    const [purchaseOpen, setPurchaseOpen] = useState(false);
 
     useEffect(() => {
         if (quantity > 0){
-            setTotalCost(parseFloat(stockData.c * quantity).toFixed(2));
+            setTotalCost(round(stockData.c * quantity));
         }   
     }, [quantity]);
 
@@ -79,8 +62,14 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                 availableBalance: user.availableBalance,
             }
         });
-        handleClose();
+        handlePurchaseModalClose();
     };
+    const handlePurchaseModalOpen = () => {
+        setPurchaseOpen(true);
+    }
+    const handlePurchaseModalClose = () => {
+        setPurchaseOpen(false);
+    }
 
     const sellStock = () => {
         console.log('selling stock');
@@ -106,40 +95,19 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
         });
     };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    // Contents of the Purchase Modal. Should be moved to another component later.
-    const body = (
-        <div style={modalStyle} className={modalClass.paper}>
-          <h2 id="simple-modal-title">Purchase</h2>
-          <div id="simple-modal-description">
-            <p>Available Funds: ${round(user.availableBalance)}</p>
-            <p>Current/Market Stock Price: ${round(stockData.c)}</p>
-            <h3>Please select quantity</h3>
-            <Grid container className={gridClass.root} spacing={2}>
-                <Grid item xs={4}>
-                    <p>Total Cost: ${round(totalCost)}</p>
-                </Grid>
-                <Grid item xs={4}>
-                    <p>Remaining Balance: ${round(user.availableBalance - totalCost)}</p>
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField label="Quantity" value={quantity} onChange={event => setQuantity(event.target.value)}/>
-                </Grid>
-            </Grid>
-          </div>
-          <button onClick={purchaseStock}>Confirm</button>
-        </div>
-    );
+    
 
     return (
         <React.Fragment>
+            <PurchaseModal 
+                purchaseOpen={purchaseOpen}
+                user={user}
+                stockData={stockData}
+                purchaseStock={purchaseStock}
+                handlePurchaseModalClose={handlePurchaseModalClose}
+                quantity={quantity}
+                setQuantity={setQuantity}
+            />
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -192,38 +160,66 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                         {displayType === "search" &&
                             <Grid item xs={6}>
                                 <Grid container spacing={1}>
-                                    <Button variant="outlined" color="default" onClick={addToWatchlist}>Watch</Button>
-                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                                    <Button 
+                                        variant="outlined" 
+                                        color="default" 
+                                        onClick={addToWatchlist}
+                                    >
+                                        Watch
+                                    </Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        onClick={handlePurchaseModalOpen}
+                                    >
+                                        Buy
+                                    </Button>
                                 </Grid>
                             </Grid>
                         }
                         {displayType === "watchlist" &&
                             <Grid item xs={6}>
                                 <Grid container spacing={1}>
-                                    <Button variant="outlined" color="default" onClick={removeFromWatchlist}>Remove</Button>
-                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                                    <Button 
+                                        variant="outlined" 
+                                        color="default" 
+                                        onClick={removeFromWatchlist}
+                                    >
+                                        Remove
+                                    </Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        onClick={handlePurchaseModalOpen}
+                                    >
+                                        Buy
+                                    </Button>
                                 </Grid>
                             </Grid>
                         }
                         {displayType === "portfolio" &&
                             <Grid item xs={6}>
                                 <Grid container spacing={1}>
-                                    <Button variant="outlined" color="default" onClick={sellStock}>Sell</Button>
-                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy More</Button>
+                                    <Button 
+                                        variant="outlined" 
+                                        color="default" 
+                                        onClick={sellStock}
+                                    >
+                                        Sell
+                                    </Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        onClick={handlePurchaseModalOpen}
+                                    >
+                                        Buy More
+                                    </Button>
                                 </Grid>
                             </Grid>
                         }
                     </Grid>
                 </AccordionDetails>
-            </Accordion>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                {body}
-            </Modal>
+            </Accordion>  
         </React.Fragment>
     )
 }
