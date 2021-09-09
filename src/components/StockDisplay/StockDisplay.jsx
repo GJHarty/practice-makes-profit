@@ -81,6 +81,10 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
         handleClose();
     };
 
+    const sellStock = () => {
+        console.log('selling stock');
+    };
+
     const addToWatchlist = () => {
         console.log('Adding to watchlist');
         dispatch({
@@ -198,6 +202,14 @@ export default function StockDisplay({ stockSymbol, classes, stockData, displayT
                                 <Grid container spacing={1}>
                                     <Button variant="outlined" color="default" onClick={removeFromWatchlist}>Remove</Button>
                                     <Button variant="contained" color="primary" onClick={handleOpen}>Buy</Button>
+                                </Grid>
+                            </Grid>
+                        }
+                        {displayType === "portfolio" &&
+                            <Grid item xs={6}>
+                                <Grid container spacing={1}>
+                                    <Button variant="outlined" color="default" onClick={sellStock}>Sell</Button>
+                                    <Button variant="contained" color="primary" onClick={handleOpen}>Buy More</Button>
                                 </Grid>
                             </Grid>
                         }
