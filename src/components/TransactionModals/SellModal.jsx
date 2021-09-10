@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import round from '../../round';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, FormControl, Grid, Input, InputLabel, TextField, Typography } from '@material-ui/core';
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -41,6 +41,7 @@ export default function SellModal({
     handleSellModalClose, 
     quantity, 
     setQuantity,
+    dbData,
 }) {
     const classes = useStyles();
     const gridClass = gridStyle();
@@ -69,39 +70,58 @@ export default function SellModal({
                 <div className={classes.paper}>
                     <h2 id="simple-modal-title">Sell</h2>
                     <div id="simple-modal-description">
-                        <p>Available Funds: ${round(user.availableBalance)}</p>
-                        <p>Current/Market Stock Price: ${round(stockData.c)}</p>
-                        <h3>Please select quantity</h3>
-                        <Grid container className={gridClass.root} spacing={2}>
-                            <Grid item xs={4}>
-                                <p>Total Profit: ${totalCost}</p>
+                        <Grid container className={gridClass.root} spacing={2} style={{maxWidth: '600px'}}>
+                            <Grid item xs={6}>
+                                <Typography>Available Funds: ${round(user.availableBalance)}</Typography>
+                                <Typography>Current/Market Stock Price: ${round(stockData.c)}</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                {dbData &&
+                                <Typography>Quantity Owned: {dbData.totalQuantity}</Typography>
+                                }
+                            </Grid>
+                            <Grid item xs={12}>
+                                <h3>Please select quantity:</h3>
                             </Grid>
                             <Grid item xs={4}>
-                                <p>Remaining Balance: ${round(user.availableBalance + totalCost)}</p>
+                                {dbData && 
+                                    <FormControl>
+                                        <InputLabel>Quantity</InputLabel>
+                                        <Input
+                                            id="quantity-input"
+                                            type="number"
+                                            value={quantity}
+                                            onChange={event => setQuantity(event.target.value)} 
+                                        />
+                                    </FormControl>
+                                }
                             </Grid>
                             <Grid item xs={4}>
-                                <TextField 
-                                    label="Quantity" 
-                                    value={quantity} 
-                                    onChange={event => setQuantity(event.target.value)}
-                                />
+                                <p>Profit: ${totalCost}</p>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <p>Updated Balance: ${round(user.availableBalance + totalCost)}</p>
+                            </Grid>
+                            <Grid item xs={6}>
+                            <Button 
+                                variant="outlined" 
+                                color="default" 
+                                onClick={handleSellModalClose}
+                            >
+                                Cancel
+                            </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                onClick={sellStock}
+                            >
+                                Confirm
+                            </Button>
                             </Grid>
                         </Grid>
                     </div>
-                    <Button 
-                        variant="outlined" 
-                        color="default" 
-                        onClick={handleSellModalClose}
-                    >
-                        Cancel
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={sellStock}
-                    >
-                        Confirm
-                    </Button>
                 </div>
             </Fade>
         </Modal>

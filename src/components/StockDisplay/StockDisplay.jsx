@@ -162,6 +162,7 @@ export default function StockDisplay({
                 handleSellModalClose={handleSellModalClose}
                 quantity={quantity}
                 setQuantity={setQuantity}
+                dbData={dbData}
             />
             <Accordion>
                 <AccordionSummary
@@ -173,7 +174,7 @@ export default function StockDisplay({
                         {stockSymbol}  &nbsp;
                         Current Price: ${round(stockData.c)} &nbsp;
                         Day Change: {round(stockData.dp)}%
-                        {dbData &&
+                        {(dbData && (dbData.totalQuantity > 0)) &&
                             <div>
                                 <p>
                                     Quantity Owned: {dbData.totalQuantity} &nbsp;
