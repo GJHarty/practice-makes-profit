@@ -27,6 +27,7 @@ function* fetchUser() {
 function* decreaseBalances(action) {
   try {
     yield axios.put('/api/user', action.payload);
+    yield fetchUser();
   } catch (err) {
     console.log('Balance decrease failed', err);
   }
@@ -35,6 +36,7 @@ function* decreaseBalances(action) {
 function* increaseBalances(action) {
   try {
     yield axios.put('/api/user', action.payload);
+    yield fetchUser();
   } catch (err) {
     console.log('Balance increase failed', err);
   }

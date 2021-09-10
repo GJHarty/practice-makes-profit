@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Container, makeStyles } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
+import round from '../../round';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ export default function Portfolio() {
   // Using hooks we're creating local state for a "heading" variable with
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
+  const user = useSelector((store) => store.user);
   const detailedPortfolio = store.detailedPortfolio;
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -39,6 +41,7 @@ export default function Portfolio() {
     <div>
       <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
         <h2>{heading}</h2>
+        <h3>Available Balance: ${round(user.availableBalance)}</h3>
         {detailedPortfolio.map(stock => (
         <StockDisplay 
           key={stock.data.c}

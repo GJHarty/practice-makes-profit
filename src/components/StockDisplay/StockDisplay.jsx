@@ -68,9 +68,6 @@ export default function StockDisplay({
                     operator: 'decrease',
                 }
             });
-            dispatch({
-                type: 'FETCH_USER',
-            });
             handlePurchaseModalClose();
         }
     };
@@ -85,7 +82,7 @@ export default function StockDisplay({
 
     const sellStock = () => {
         console.log('selling stock');
-        if (quantity > dbData.totalQuantity) {
+        if (Number(quantity) > Number(dbData.totalQuantity)) {
             console.log('Attempting to sell too many stocks');
             alert('You cannot sell more stocks than you have. Please try again.');
         } else {
@@ -105,9 +102,6 @@ export default function StockDisplay({
                     availableBalance: user.availableBalance,
                     operator: 'increase',
                 }
-            });
-            dispatch({
-                type: 'FETCH_USER',
             });
             handleSellModalClose();
         }
@@ -188,7 +182,6 @@ export default function StockDisplay({
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
                         <Grid item xs={6}>
-                            <Grid container spacing={2}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
                                         High Price of the Day: ${round(stockData.h)}
@@ -203,19 +196,15 @@ export default function StockDisplay({
                                         Previous Day Closing Price: ${round(stockData.pc)}
                                     </ListItem>
                                 </List>
-                            </Grid>
                         </Grid>
                         <Grid item xs={6}>
-                            <Grid container spacing={2}>
                                 <HistoryGraph 
                                     stockSymbol={stockSymbol}
                                     stockHistory={stockHistory}
                                 />
-                            </Grid>
                         </Grid>
                         {displayType === "search" &&
                             <Grid item xs={6}>
-                                <Grid container spacing={1}>
                                     <Button 
                                         variant="outlined" 
                                         color="default" 
@@ -230,12 +219,10 @@ export default function StockDisplay({
                                     >
                                         Buy
                                     </Button>
-                                </Grid>
                             </Grid>
                         }
                         {displayType === "watchlist" &&
                             <Grid item xs={6}>
-                                <Grid container spacing={1}>
                                     <Button 
                                         variant="outlined" 
                                         color="default" 
@@ -250,12 +237,13 @@ export default function StockDisplay({
                                     >
                                         Buy
                                     </Button>
-                                </Grid>
                             </Grid>
                         }
                         {displayType === "portfolio" &&
-                            <Grid item xs={6}>
-                                <Grid container spacing={1}>
+                            <Grid container >
+                                <Grid item xs={8}>
+                                </Grid>
+                                <Grid item xs={4} align="center">
                                     <Button 
                                         variant="outlined" 
                                         color="default" 
@@ -268,9 +256,10 @@ export default function StockDisplay({
                                         color="primary" 
                                         onClick={handlePurchaseModalOpen}
                                     >
-                                        Buy More
+                                        Buy
                                     </Button>
                                 </Grid>
+
                             </Grid>
                         }
                     </Grid>

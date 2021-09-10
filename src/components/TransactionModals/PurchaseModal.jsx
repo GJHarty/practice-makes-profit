@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import round from '../../round';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, FormControl, Grid, Input, InputLabel, TextField, Typography } from '@material-ui/core';
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -67,41 +67,74 @@ export default function PurchaseModal({
         >
             <Fade in={purchaseOpen}>
                 <div className={classes.paper}>
-                    <h2 id="simple-modal-title">Purchase</h2>
                     <div id="simple-modal-description">
-                        <p>Available Funds: ${round(user.availableBalance)}</p>
-                        <p>Current/Market Stock Price: ${round(stockData.c)}</p>
-                        <h3>Please select quantity</h3>
-                        <Grid container className={gridClass.root} spacing={2}>
-                            <Grid item xs={4}>
-                                <p>Total Cost: ${round(totalCost)}</p>
+                        
+                        <Grid 
+                            container 
+                            className={gridClass.root} 
+                            spacing={2} 
+                            justifyContent="center" 
+                            style={{maxWidth: '550px'}}
+                        >
+                            <Grid item xs={12} align="center">
+                                <h2 id="simple-modal-title">Purchase</h2>
+                            </Grid>
+                            <Grid item xs={12} align="center">
+                                <Typography>Available Funds: ${round(user.availableBalance)}</Typography>
+                                <Typography>Current/Market Stock Price: ${round(stockData.c)}</Typography>
+                            </Grid>
+                            <Grid item xs={12} align="center">
+                                <h3>Please select quantity:</h3>
                             </Grid>
                             <Grid item xs={4}>
-                                <p>Remaining Balance: ${round(user.availableBalance - totalCost)}</p>
+                                <Typography>Total Cost: ${round(totalCost)}</Typography>
                             </Grid>
                             <Grid item xs={4}>
-                                <TextField 
-                                    label="Quantity" 
-                                    value={quantity} 
-                                    onChange={event => setQuantity(event.target.value)}
-                                />
+                                <Typography>Updated Balance: ${round(user.availableBalance - totalCost)}</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                {totalCost < user.availableBalance ?
+                                <FormControl>
+                                    <InputLabel>Quantity</InputLabel>
+                                    <Input
+                                        id="quantity-input"
+                                        type="number"
+                                        value={quantity}
+                                        onChange={event => setQuantity(event.target.value)} 
+                                    />
+                                </FormControl> :
+                                <FormControl error>
+                                    <InputLabel>Quantity</InputLabel>
+                                    <Input
+                                        id="quantity-input"
+                                        type="number"
+                                        value={quantity}
+                                        onChange={event => setQuantity(event.target.value)} 
+                                    />
+                                </FormControl>
+                            }
+                                
+                            </Grid>
+                            <Grid item xs={6} align="left">
+                                <Button 
+                                    variant="outlined" 
+                                    color="default" 
+                                    onClick={handlePurchaseModalClose}
+                                >
+                                    Cancel
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6} align="right">
+                                <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={purchaseStock}
+                                >
+                                    Confirm
+                                </Button>
                             </Grid>
                         </Grid>
                     </div>
-                    <Button 
-                        variant="outlined" 
-                        color="default" 
-                        onClick={handlePurchaseModalClose}
-                    >
-                        Cancel
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={purchaseStock}
-                    >
-                        Confirm
-                    </Button>
                 </div>
             </Fade>
         </Modal>

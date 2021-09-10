@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Button, makeStyles } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 import axios from 'axios';
+import round from '../../round';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,8 +63,7 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h2>{heading}</h2>
-      <h3>Available Balance: ${(Math.round(user.availableBalance * 100) / 100).toFixed(2)}</h3>
+      <h3 style={{float: 'right'}}>Available Balance: ${round(user.availableBalance)}</h3>
       <div>
         <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
           <h1>Search</h1>

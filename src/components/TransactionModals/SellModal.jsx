@@ -70,7 +70,7 @@ export default function SellModal({
                 <div className={classes.paper}>
                     <h2 id="simple-modal-title">Sell</h2>
                     <div id="simple-modal-description">
-                        <Grid container className={gridClass.root} spacing={2} style={{maxWidth: '600px'}}>
+                        <Grid container className={gridClass.root} spacing={2} style={{maxWidth: '550px'}}>
                             <Grid item xs={6}>
                                 <Typography>Available Funds: ${round(user.availableBalance)}</Typography>
                                 <Typography>Current/Market Stock Price: ${round(stockData.c)}</Typography>
@@ -83,42 +83,55 @@ export default function SellModal({
                             <Grid item xs={12}>
                                 <h3>Please select quantity:</h3>
                             </Grid>
+                            
                             <Grid item xs={4}>
-                                {dbData && 
-                                    <FormControl>
-                                        <InputLabel>Quantity</InputLabel>
-                                        <Input
-                                            id="quantity-input"
-                                            type="number"
-                                            value={quantity}
-                                            onChange={event => setQuantity(event.target.value)} 
-                                        />
-                                    </FormControl>
-                                }
-                            </Grid>
-                            <Grid item xs={4}>
-                                <p>Profit: ${totalCost}</p>
+                                <p>Profit: ${round(totalCost)}</p>
                             </Grid>
                             <Grid item xs={4}>
                                 <p>Updated Balance: ${round(user.availableBalance + totalCost)}</p>
                             </Grid>
-                            <Grid item xs={6}>
-                            <Button 
-                                variant="outlined" 
-                                color="default" 
-                                onClick={handleSellModalClose}
-                            >
-                                Cancel
-                            </Button>
+                            {dbData && 
+                                <Grid item xs={4}>
+                                    
+                                        {quantity <= Number(dbData.totalQuantity) ?
+                                        <FormControl>
+                                            <InputLabel>Quantity</InputLabel>
+                                            <Input
+                                                id="quantity-input"
+                                                type="number"
+                                                value={quantity}
+                                                onChange={event => setQuantity(Number(event.target.value))} 
+                                            />
+                                        </FormControl>:
+                                        <FormControl error>
+                                            <InputLabel>Quantity</InputLabel>
+                                            <Input
+                                                id="quantity-input"
+                                                type="number"
+                                                value={quantity}
+                                                onChange={event => setQuantity(Number(event.target.value))} 
+                                            />
+                                        </FormControl>
+                                        }
+                                </Grid>
+                            }
+                            <Grid item xs={6} align="left">
+                                <Button 
+                                    variant="outlined" 
+                                    color="default" 
+                                    onClick={handleSellModalClose}
+                                >
+                                    Cancel
+                                </Button>
                             </Grid>
-                            <Grid item xs={6}>
-                            <Button 
-                                variant="contained" 
-                                color="primary" 
-                                onClick={sellStock}
-                            >
-                                Confirm
-                            </Button>
+                            <Grid item xs={6} align="right">
+                                <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={sellStock}
+                                >
+                                    Confirm
+                                </Button>
                             </Grid>
                         </Grid>
                     </div>
