@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, TextField, Button, makeStyles } from '@material-ui/core';
+import { Container, TextField, Button, makeStyles, Grid } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 import axios from 'axios';
 import round from '../../round';
@@ -76,24 +76,26 @@ export default function SearchPage() {
           </form>
           <Button variant="contained" color="primary" onClick={searchForSymbol}>Submit</Button>
           {symbolResults && 
-            <div>
+            <Grid container spacing={4}>
             {symbolResults.map(result => (
-              <div key={result.symbol}>
-                <p>Description: {result.description} Symbol: {result.symbol}</p>
-              </div>
+              <Grid item xs={4} key={result.symbol}>
+                <p>Name: {result.description} </p>
+                <p>Symbol: <Button variant="outlined" color="default" >{result.symbol}</Button> </p>
+              </Grid>
             ))}
-            </div>
+            </Grid>
           }
-          {isStockDisplayed ? 
+          <div>
+          {isStockDisplayed &&
             <StockDisplay 
               stockSymbol={search}
               classes={classes}
               stockData={stockData}
               displayType="search"
               stockHistory={history}
-            /> :
-            null
+            /> 
           }
+          </div>
         </Container>
       </div>
     </div>

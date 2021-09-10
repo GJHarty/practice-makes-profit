@@ -26,6 +26,9 @@ import Watchlist from '../Watchlist/Watchlist';
 import HowToUse from '../HowToUse/HowToUse';
 import Portfolio from '../Portfolio/Portfolio';
 
+import theme from '../../theme';
+import { ThemeProvider } from '@material-ui/core';
+
 function App() {
   const dispatch = useDispatch();
 
@@ -36,6 +39,7 @@ function App() {
   }, [dispatch]);
 
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <div>
         <Nav />
@@ -154,6 +158,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

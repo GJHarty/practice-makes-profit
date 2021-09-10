@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import round from '../../round';
-import { Button, FormControl, Grid, Input, InputLabel, TextField, Typography } from '@material-ui/core';
+import { Button, FormControl, FormHelperText, Grid, Input, InputLabel, TextField, Typography } from '@material-ui/core';
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -94,26 +94,26 @@ export default function PurchaseModal({
                             </Grid>
                             <Grid item xs={4}>
                                 {totalCost < user.availableBalance ?
-                                <FormControl>
-                                    <InputLabel>Quantity</InputLabel>
-                                    <Input
-                                        id="quantity-input"
-                                        type="number"
-                                        value={quantity}
-                                        onChange={event => setQuantity(event.target.value)} 
-                                    />
-                                </FormControl> :
-                                <FormControl error>
-                                    <InputLabel>Quantity</InputLabel>
-                                    <Input
-                                        id="quantity-input"
-                                        type="number"
-                                        value={quantity}
-                                        onChange={event => setQuantity(event.target.value)} 
-                                    />
-                                </FormControl>
-                            }
-                                
+                                    <FormControl>
+                                        <InputLabel>Quantity</InputLabel>
+                                        <Input
+                                            id="quantity-input"
+                                            type="number"
+                                            value={quantity}
+                                            onChange={event => setQuantity(event.target.value)} 
+                                        />
+                                    </FormControl> :
+                                    <FormControl error >
+                                        <InputLabel>Quantity</InputLabel>
+                                        <Input
+                                            id="quantity-input"
+                                            type="number"
+                                            value={quantity}
+                                            onChange={event => setQuantity(event.target.value)} 
+                                        />
+                                        <FormHelperText>Exceeded available funds.</FormHelperText>
+                                    </FormControl>
+                                }
                             </Grid>
                             <Grid item xs={6} align="left">
                                 <Button 
