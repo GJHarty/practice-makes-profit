@@ -14,6 +14,7 @@ const watchlistRouter = require('./routes/watchlist.router');
 const historyRouter = require('./routes/history.router');
 const stockListRouter = require('./routes/stockList.router');
 const portfolioRouter = require('./routes/portfolio.router');
+const lookupRouter = require('./routes/symbolLookup.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -33,6 +34,7 @@ app.use('/api/watchlist', watchlistRouter);
 app.use('/api/history', historyRouter);
 app.use('/api/stock-list', stockListRouter);
 app.use('/api/portfolio', portfolioRouter);
+app.use('/api/lookup', lookupRouter);
 
 // Serve static files
 app.use(express.static('build'));

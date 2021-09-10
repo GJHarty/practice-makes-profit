@@ -47,24 +47,32 @@ export default function StockDisplay({
 
     const purchaseStock = () => {
         console.log('buying stock');
-        dispatch({
-            type: 'CREATE_STOCK',
-            payload: {
-                symbol: stockSymbol,
-                price: stockData.c,
-                quantity,
-                isBoughtOrSold: true,
-            },
-        });
-        dispatch({
-            type: 'DECREASE_BALANCES',
-            payload: {
-                totalCost,
-                availableBalance: user.availableBalance,
-                operator: 'decrease',
-            }
-        });
-        handlePurchaseModalClose();
+        if (totalCost > user.availableBalance) {
+            console.log('Purchase exceeds available balance');
+            alert('You do not have enough funds available to purchase that quantity. Please try again.');
+        } else {
+            dispatch({
+                type: 'CREATE_STOCK',
+                payload: {
+                    symbol: stockSymbol,
+                    price: stockData.c,
+                    quantity,
+                    isBoughtOrSold: true,
+                },
+            });
+            dispatch({
+                type: 'DECREASE_BALANCES',
+                payload: {
+                    totalCost,
+                    availableBalance: user.availableBalance,
+                    operator: 'decrease',
+                }
+            });
+            dispatch({
+                type: 'FETCH_USER',
+            });
+            handlePurchaseModalClose();
+        }
     };
 
     const handlePurchaseModalOpen = () => {
@@ -77,24 +85,32 @@ export default function StockDisplay({
 
     const sellStock = () => {
         console.log('selling stock');
-        dispatch({
-            type: 'CREATE_STOCK',
-            payload: {
-                symbol: stockSymbol,
-                price: stockData.c,
-                quantity: quantity,
-                isBoughtOrSold: false
-            },
-        });
-        dispatch({
-            type: 'INCREASE_BALANCES',
-            payload: {
-                totalCost,
-                availableBalance: user.availableBalance,
-                operator: 'increase',
-            }
-        });
-        handleSellModalClose();
+        if (quantity > dbData.totalQuantity) {
+            console.log('Attempting to sell too many stocks');
+            alert('You cannot sell more stocks than you have. Please try again.');
+        } else {
+            dispatch({
+                type: 'CREATE_STOCK',
+                payload: {
+                    symbol: stockSymbol,
+                    price: stockData.c,
+                    quantity: quantity,
+                    isBoughtOrSold: false
+                },
+            });
+            dispatch({
+                type: 'INCREASE_BALANCES',
+                payload: {
+                    totalCost,
+                    availableBalance: user.availableBalance,
+                    operator: 'increase',
+                }
+            });
+            dispatch({
+                type: 'FETCH_USER',
+            });
+            handleSellModalClose();
+        }
     };
 
     const handleSellModalOpen = () => {

@@ -38,16 +38,27 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   VALUES
     ($1, $2, $3, $4, $5, $6);
   `;
+  let params;
 
-  const params = [
-    req.user.id,
-    req.body.symbol,
-    req.body.quantity,
-    req.body.isBoughtOrSold,
-    time,
-    req.body.price,
-  ];
-  
+  if (!req.body.isBoughtOrSold) {
+    params = [
+      req.user.id,
+      req.body.symbol,
+      (req.body.quantity *= -1),
+      req.body.isBoughtOrSold,
+      time,
+      req.body.price,]
+  } else {
+    params = [
+      req.user.id,
+      req.body.symbol,
+      req.body.quantity,
+      req.body.isBoughtOrSold,
+      time,
+      req.body.price,
+    ];
+  }
+
   pool.query(query, params)
     .then(dbRes => {
       res.sendStatus(201);
