@@ -15,7 +15,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         sum("quantity") as "totalQuantity" 
     FROM "purchasedStocks"
     WHERE "userId"=$1
-    GROUP BY "stockSymbol";
+    GROUP BY "stockSymbol"
+    ORDER BY "stockSymbol"
     `;
   
     const params = [req.user.id];

@@ -11,6 +11,7 @@ import round from "../../round";
 import PurchaseModal from "../TransactionModals/PurchaseModal";
 import SellModal from "../TransactionModals/SellModal";
 import { useEffect } from "react";
+import './StockDisplay.css';
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -19,6 +20,7 @@ const gridStyle = makeStyles((theme) => ({
     paper: {
       height: 140,
       width: 100,
+      color: '#dae5e3',
     },
     control: {
       padding: theme.spacing(2),
@@ -158,8 +160,9 @@ export default function StockDisplay({
                 setQuantity={setQuantity}
                 dbData={dbData}
             />
-            <Accordion>
+            <Accordion elevation={3} className='accordian'>
                 <AccordionSummary
+                    className='accordian'
                     expandIcon={<ExpandMoreIcon />}
                     arie-controls="panel1a-content"
                     id="panel1a-header"

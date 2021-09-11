@@ -1,4 +1,4 @@
-import { Container, makeStyles } from '@material-ui/core';
+import { Container, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -37,8 +37,9 @@ export default function Watchlist() {
 
   return (
     <div>
-      <h2>{heading}</h2>
+      
       <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
+      <Typography variant="h2">{heading}</Typography>
       {detailedWatchlist.map(stock => (
         <StockDisplay 
           key={stock.stockSymbol}

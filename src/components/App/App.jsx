@@ -23,7 +23,6 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import './App.css';
 import Search from '../Search/Search';
 import Watchlist from '../Watchlist/Watchlist';
-import HowToUse from '../HowToUse/HowToUse';
 import Portfolio from '../Portfolio/Portfolio';
 
 import theme from '../../theme';
@@ -78,14 +77,6 @@ function App() {
               path="/watchlist"
             >
               <Watchlist />
-            </ProtectedRoute>
-
-            <ProtectedRoute
-              // logged in shows UserPage else shows LoginPage
-              exact
-              path="/how-to-use"
-            >
-              <HowToUse />
             </ProtectedRoute>
 
             {/* For protected routes, the view could show one of several things on the same route.

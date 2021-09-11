@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, TextField, Button, makeStyles, Grid } from '@material-ui/core';
+import { Container, TextField, Button, makeStyles, Grid, Typography } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 import axios from 'axios';
 import round from '../../round';
@@ -66,7 +66,7 @@ export default function SearchPage() {
       <h3 style={{float: 'right'}}>Available Balance: ${round(user.availableBalance)}</h3>
       <div>
         <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
-          <h1>Search</h1>
+          <Typography variant="h2">{heading}</Typography>
           <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSearch(event.target.value)}>
               <TextField id="standard-basic" label="Enter Ticker" /> 
           </form>
