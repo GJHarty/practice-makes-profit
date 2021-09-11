@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { Container, makeStyles } from '@material-ui/core';
+import { Container, makeStyles, Typography } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 import round from '../../round';
 
@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Basic functional component structure for React with default state
-// value setup. When making a new component be sure to replace the
-// component name TemplateFunction with the name for the new component.
 export default function Portfolio() {
   // Using hooks we're creating local state for a "heading" variable with
   // a default value of 'Functional Component'
@@ -27,6 +24,7 @@ export default function Portfolio() {
   const classes = useStyles();
 
   const [heading, setHeading] = useState('Portfolio');
+  let totalBalance = user.availableBalance;
 
   useEffect(() => {
     dispatch({
@@ -36,23 +34,33 @@ export default function Portfolio() {
       type: 'FETCH_PORTFOLIO',
     });
   }, []);
+  
+  // logic for creating a total balance including holdings. not working atm
+  useEffect(() => {
+    for (let holding of detailedPortfolio) {
+      totalBalance += holding.dbData.totalHoldings;
+    }
+    return totalBalance
+  }, [user])
+  
 
   return (
     <div>
       <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
-        <h2>{heading}</h2>
-        <h3>Available Balance: ${round(user.availableBalance)}</h3>
+        <Typography variant="h3">{heading}</Typography>
+        <Typography variant="h4">Available Balance: ${round(user.availableBalance)}</Typography>
+        <Typography variant="h4">Total Balance: ${round(totalBalance)}</Typography>
         {detailedPortfolio.map(stock => (
-        <StockDisplay 
-          key={stock.data.c}
-          stockSymbol={stock.stockSymbol}
-          classes={classes}
-          stockData={stock.data}
-          stockHistory={stock.history}
-          dbData={stock.dbData}
-          displayType="portfolio"
-        />
-      ))}
+          <StockDisplay 
+            key={stock.data.c}
+            stockSymbol={stock.stockSymbol}
+            classes={classes}
+            stockData={stock.data}
+            stockHistory={stock.history}
+            dbData={stock.dbData}
+            displayType="portfolio"
+          />
+        ))}
       </Container>
     </div>
   );
