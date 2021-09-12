@@ -63,39 +63,49 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h3 style={{float: 'right'}}>Available Balance: ${round(user.availableBalance)}</h3>
+      
       <div>
-        <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
-          <Typography variant="h2">{heading}</Typography>
-          <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSearch(event.target.value)}>
-              <TextField id="standard-basic" label="Enter Ticker" /> 
-          </form>
-          <Button variant="contained" color="primary" onClick={searchOnClick}>Submit</Button>
-          <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSymbolSearch(event.target.value)}>
-              <TextField id="standard-basic" label="Enter Company Name" /> 
-          </form>
-          <Button variant="contained" color="primary" onClick={searchForSymbol}>Submit</Button>
-          {symbolResults && 
-            <Grid container spacing={4}>
-            {symbolResults.map(result => (
-              <Grid item xs={4} key={result.symbol}>
-                <p>Name: {result.description} </p>
-                <p>Symbol: <Button variant="outlined" color="default" >{result.symbol}</Button> </p>
-              </Grid>
-            ))}
+        <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '95vh'}}>
+          <Grid container maxwidth="md" spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h2">{heading}</Typography>
             </Grid>
-          }
-          <div>
-          {isStockDisplayed &&
-            <StockDisplay 
-              stockSymbol={search}
-              classes={classes}
-              stockData={stockData}
-              displayType="search"
-              stockHistory={history}
-            /> 
-          }
-          </div>
+            <Grid item xs={6}>
+              <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSearch(event.target.value)}>
+                <TextField id="standard-basic" label="Enter Ticker" /> 
+              </form>
+              <Button variant="contained" color="primary" onClick={searchOnClick}>Submit</Button>
+            </Grid>
+            <Grid item xs={6}>
+              <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSymbolSearch(event.target.value)}>
+                <TextField id="standard-basic" label="Enter Company Name" /> 
+              </form>
+              <Button variant="contained" color="primary" onClick={searchForSymbol}>Submit</Button>
+            </Grid>
+            <Grid item xs={12}>
+              {isStockDisplayed &&
+                <StockDisplay 
+                  stockSymbol={search}
+                  classes={classes}
+                  stockData={stockData}
+                  displayType="search"
+                  stockHistory={history}
+                /> 
+              }
+            </Grid>
+            <Grid item xs={12}>
+              {symbolResults && 
+                <Grid container spacing={4}>
+                {symbolResults.map(result => (
+                  <Grid item xs={4} key={result.symbol}>
+                    <p>Name: {result.description} </p>
+                    <p>Symbol: <Button variant="outlined" color="default" >{result.symbol}</Button> </p>
+                  </Grid>
+                ))}
+                </Grid>
+              }
+            </Grid>
+          </Grid>
         </Container>
       </div>
     </div>

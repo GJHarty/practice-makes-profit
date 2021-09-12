@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import {  useSelector } from 'react-redux';
+import round from '../../round';
+import { Typography } from '@material-ui/core';
 
 import logo from './images/white-text.jpg';
 
@@ -28,6 +30,11 @@ function Nav() {
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
+            {/* <Link classname="navLink" to="/portfolio" style={{color: 'white'}}> */}
+            <p className="navLink">Available Balance: ${round(user.availableBalance)}</p>
+            {/* </Link> */}
+            &emsp;
+            &emsp;
             <Link className="navLink" to="/search">
               Search
             </Link>
