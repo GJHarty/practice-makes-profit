@@ -264,6 +264,7 @@ export default function StockDisplay({
                                     </Button>
                                 </Grid>
                                 <Grid item xs={4} align="center">
+                                    {dbData.totalQuantity < 1 &&
                                     <Button
                                         variant="contained"
                                         color="secondary"
@@ -271,6 +272,8 @@ export default function StockDisplay({
                                     >
                                         Remove
                                     </Button>
+                                    }
+                                    
                                 </Grid>
                                 <Grid item xs={4} align="center">
                                     <Button 

@@ -12,13 +12,13 @@ function UserPage() {
   const [fundsToAdd, setFundsToAdd] = useState(0);
   const [newUsername, setNewUsername] = useState('');
 
-  const updateUsername = () => {
+  /* const updateUsername = () => {
     console.log('updating username');
     dispatch({
       type: 'UPDATE_USERNAME',
       payload: newUsername
     })
-  }
+  } */
 
   const addFunds = () => {
     console.log('Adding Funds');
@@ -47,19 +47,21 @@ function UserPage() {
         <Grid item xs={12}>
           <Typography variant="h4">Your available funds are: ${round(user.availableBalance)}</Typography>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <form noValidate autoComplete="off" onChange={(event) => setNewUsername(event.target.value)}>
             <Button variant="contained" color="primary" onClick={updateUsername}>
               Update Username
             </Button>
             <TextField id="standard-basic" label="Enter new username" /> 
           </form>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <form noValidate autoComplete="off" onChange={(event) => setFundsToAdd(Number(event.target.value))}>
             <Button variant="contained" color="primary" onClick={addFunds}>
               Increase Available Funds
             </Button>
+            &emsp;
+            &emsp;
             <TextField id="standard-basic" label="Enter amount" /> 
           </form>
         </Grid>
