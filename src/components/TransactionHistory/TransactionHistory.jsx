@@ -74,9 +74,11 @@ export default function TransactionHistory({
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
+      <List component="nav" aria-label="transaction history display">
         {transactions.map(item => (
-            <p key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${item.price}</p>
+            <ListItem key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${round(item.price)}</ListItem>
         ))}
+      </List>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <List component="nav" aria-label="expanded stock info">

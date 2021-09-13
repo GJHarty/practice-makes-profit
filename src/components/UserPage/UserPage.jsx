@@ -32,18 +32,21 @@ function UserPage() {
     });
   }
 
+  const deleteUser = () => {
+    dispatch({
+      type: 'DELETE_USER',
+    });
+  }
+
   return (
     <Container maxWidth="md">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h2">Welcome, {user.username}!</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h4">Your ID is: {user.id}</Typography>
-        </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Typography variant="h4">Your portfolio balance is: ${round(user.accountBalance)}</Typography>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <Typography variant="h4">Your available funds are: ${round(user.availableBalance)}</Typography>
         </Grid>
@@ -69,7 +72,7 @@ function UserPage() {
           <LogOutButton className="btn" />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={deleteUser}>
             Delete Account
           </Button>
         </Grid>

@@ -205,6 +205,8 @@ export default function StockDisplay({
                             />
                             </Grid>
                         }
+                        {displayType !== 'portfolio' &&
+                        <>
                         <Grid item xs={6}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
@@ -221,12 +223,15 @@ export default function StockDisplay({
                                     </ListItem>
                                 </List>
                         </Grid>
+
                         <Grid item xs={6}>
                                 <HistoryGraph 
                                     stockSymbol={stockSymbol}
                                     stockHistory={stockHistory}
                                 />
                         </Grid>
+                        </>
+                        }
                         {displayType === "search" &&
                             <Grid item xs={6}>
                                     <Button 

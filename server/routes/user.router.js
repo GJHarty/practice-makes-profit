@@ -77,4 +77,22 @@ router.put('/', rejectUnauthenticated, (req,res) => {
     });
 });
 
+router.delete('/', rejectUnauthenticated, (req, res) => {
+  const query = `
+  DELETE FROM "user"
+  WHERE "id"=$1;
+  `;
+
+  const params = [req.user.id];
+
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      console.log('Error deleting user form database', err);
+      res.sendStatus(500);
+    });
+})
+
 module.exports = router;

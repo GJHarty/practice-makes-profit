@@ -42,10 +42,19 @@ function* increaseBalances(action) {
   }
 }
 
+function* deleteUser() {
+  try {
+    yield axios.delete('/api/user');
+  } catch (err) {
+    console.log('Error deleting User', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('DECREASE_BALANCES', decreaseBalances);
-  yield takeLatest('INCREASE_BALANCES', increaseBalances)
+  yield takeLatest('INCREASE_BALANCES', increaseBalances);
+  yield takeLatest('DELETE_USER', deleteUser);
 }
 
 export default userSaga;

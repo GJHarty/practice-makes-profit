@@ -33,7 +33,7 @@ function Nav() {
             {/* <Link classname="navLink" to="/portfolio" style={{color: 'white'}}> */}
             <p className="navLink">Available Balance: ${round(user.availableBalance)}</p>
             {/* </Link> */}
-            <p className="navLink">Portfolio Value: ${round(user.accountBalance)}</p>
+            {/* <p className="navLink">Portfolio Value: ${round(user.accountBalance)}</p> */}
             &emsp;
             &emsp;
             <Link className="navLink" to="/search">
