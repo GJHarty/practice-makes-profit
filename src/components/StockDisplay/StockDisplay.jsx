@@ -72,7 +72,7 @@ export default function StockDisplay({
             });
             handlePurchaseModalClose();
         }
-    };
+    }
 
     const handlePurchaseModalOpen = () => {
         setPurchaseOpen(true);
@@ -107,7 +107,7 @@ export default function StockDisplay({
             });
             handleSellModalClose();
         }
-    };
+    }
 
     const handleSellModalOpen = () => {
         setSellOpen(true);
@@ -125,7 +125,7 @@ export default function StockDisplay({
                 symbol: stockSymbol
             }
         });
-    };
+    }
 
     const removeFromWatchlist = () => {
         console.log('removing from watchlist', stockSymbol);
@@ -135,7 +135,17 @@ export default function StockDisplay({
                 symbol: stockSymbol
             }
         });
-    };
+    }
+
+    const removeFromPortfolio = () => {
+        console.log('removing stock from portfolio');
+        dispatch({
+            type: 'DELETE_PORTFOLIO_STOCK',
+            payload: {
+                symbol: stockSymbol
+            }
+        });
+    }
 
     
 
@@ -244,8 +254,6 @@ export default function StockDisplay({
                         }
                         {displayType === "portfolio" &&
                             <Grid container >
-                                <Grid item xs={8}>
-                                </Grid>
                                 <Grid item xs={4} align="center">
                                     <Button 
                                         variant="outlined" 
@@ -254,6 +262,17 @@ export default function StockDisplay({
                                     >
                                         Sell
                                     </Button>
+                                </Grid>
+                                <Grid item xs={4} align="center">
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={removeFromPortfolio}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={4} align="center">
                                     <Button 
                                         variant="contained" 
                                         color="primary" 
@@ -262,7 +281,6 @@ export default function StockDisplay({
                                         Buy
                                     </Button>
                                 </Grid>
-
                             </Grid>
                         }
                     </Grid>

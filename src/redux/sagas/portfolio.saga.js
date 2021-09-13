@@ -42,9 +42,24 @@ function* createSoldStock(action) {
   }
 }
 
+function* deletePortfolioStock(action) {
+  try {
+    yield axios.delete('/api/portfolio', {data: action.payload});
+    yield put({
+      type: 'CLEAR_DETAILED_PORTFOLIO'
+    })
+    yield put({
+      type: 'FETCH_PORTFOLIO'
+    });
+  } catch (err) {
+    console.log('Delete portfolio stock request failed', err);
+  }
+}
+
 function* portfolioSaga() {
     yield takeLatest('FETCH_PORTFOLIO', fetchPortfolio);
     yield takeLatest('CREATE_SOLD_STOCK', createSoldStock);
+    yield takeLatest('DELETE_PORTFOLIO_STOCK', deletePortfolioStock);
 }
   
 export default portfolioSaga;

@@ -32,4 +32,24 @@ router.get('/', rejectUnauthenticated, (req, res) => {
       });
 });
 
+router.delete('/', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+
+  const query = `
+  DELETE FROM "purchasedStocks"
+  WHERE "userId" = $1 AND "stockSymbol" = $2;
+  `;
+
+  const params = [req.user.id, req.body.symbol];
+
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      console.log('Error deleting from database', err);
+      res.sendStatus(500)
+    })
+})
+
 module.exports = router;

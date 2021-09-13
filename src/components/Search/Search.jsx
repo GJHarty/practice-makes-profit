@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Button, makeStyles, Grid, Typography } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
 import axios from 'axios';
-import round from '../../round';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +45,12 @@ export default function SearchPage() {
     console.log('searching for:', search);
     setStockDetails();
     setIsStockDisplayed(true);
+  }
+
+  const cardSearch = (symbol) => {
+    setSearch(symbol);
+    console.log('card search', search);
+    searchOnClick();
   }
 
   const searchForSymbol = () => {
@@ -99,7 +104,16 @@ export default function SearchPage() {
                 {symbolResults.map(result => (
                   <Grid item xs={4} key={result.symbol}>
                     <p>Name: {result.description} </p>
-                    <p>Symbol: <Button variant="outlined" color="default" >{result.symbol}</Button> </p>
+                    <p>Symbol: 
+                      <Button 
+                        variant="outlined" 
+                        color="default" 
+                        onClick={() => cardSearch(result.symbol)}
+                      >
+                        {result.symbol}
+                      </Button> 
+                      
+                    </p>
                   </Grid>
                 ))}
                 </Grid>
