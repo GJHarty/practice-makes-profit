@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from 'react';
-import { List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
+import { List, ListItem, makeStyles, Grid, Button, Typography } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -195,6 +195,7 @@ export default function StockDisplay({
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
                         <Grid item xs={12}>
+                            <Typography>Last Five Transactions</Typography>
                             {transactions.map(item => (
                                 <p key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${item.price}</p>
                             ))}

@@ -37,7 +37,8 @@ router.get('/transactions', rejectUnauthenticated, (req, res) => {
   const query = `
   SELECT * FROM "purchasedStocks"
   WHERE "userId"=$1 AND "stockSymbol"=$2
-  ORDER BY "timestamp";
+  ORDER BY "timestamp" DESC
+  LIMIT 5;
   `;
 
   const params = [req.user.id, req.query.symbol];
