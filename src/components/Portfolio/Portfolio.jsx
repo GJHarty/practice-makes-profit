@@ -61,6 +61,7 @@ export default function Portfolio() {
             stockData={stock.data}
             stockHistory={stock.history}
             dbData={stock.dbData}
+            transactions={stock.transactions}
             displayType="portfolio"
           />
         ))}

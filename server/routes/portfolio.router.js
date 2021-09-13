@@ -32,6 +32,27 @@ router.get('/', rejectUnauthenticated, (req, res) => {
       });
 });
 
+router.get('/transactions', rejectUnauthenticated, (req, res) => {
+  console.log('req.user', req.user);
+  const query = `
+  SELECT * FROM "purchasedStocks"
+  WHERE "userId"=$1 AND "stockSymbol"=$2
+  ORDER BY "timestamp";
+  `;
+
+  const params = [req.user.id, req.query.symbol];
+  
+  pool.query(query, params)
+    .then(dbRes => {
+      console.log('transaction res', dbRes.rows);
+      res.send(dbRes.rows);
+    })
+    .catch(err => {
+      console.log('error posting purchased stock', err);
+      res.sendStatus(500);
+    });
+});
+
 router.delete('/', rejectUnauthenticated, (req, res) => {
   console.log('req.body', req.body);
 

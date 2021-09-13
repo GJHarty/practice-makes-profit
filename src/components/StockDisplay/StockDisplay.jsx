@@ -33,7 +33,8 @@ export default function StockDisplay({
     stockData, 
     displayType, 
     stockHistory, 
-    dbData 
+    dbData,
+    transactions
 }) {
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
@@ -146,7 +147,6 @@ export default function StockDisplay({
             }
         });
     }
-
     
 
     return (
@@ -194,6 +194,11 @@ export default function StockDisplay({
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
+                        <Grid item xs={12}>
+                            {transactions.map(item => (
+                                <p key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${item.price}</p>
+                            ))}
+                        </Grid> 
                         <Grid item xs={6}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>

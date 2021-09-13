@@ -20,13 +20,15 @@ function* setDetailedPortfolio(stock) {
   try {
       const response = yield axios.get('/api/search', {params: {symbol: stock.stockSymbol}});
       const historyResponse = yield axios.get('/api/history', {params: {symbol: stock.stockSymbol}});
+      const transactions = yield axios.get('/api/portfolio/transactions', {params: {symbol: stock.stockSymbol}});
       yield put({
           type: 'SET_DETAILED_PORTFOLIO',
           payload: {
             stockSymbol: stock.stockSymbol,
             dbData: stock,
             data: response.data,
-            history: historyResponse.data.c
+            history: historyResponse.data.c,
+            transactions: transactions.data,
           }
       });
     } catch (err) {
