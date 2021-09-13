@@ -12,6 +12,7 @@ import PurchaseModal from "../TransactionModals/PurchaseModal";
 import SellModal from "../TransactionModals/SellModal";
 import { useEffect } from "react";
 import './StockDisplay.css';
+import TransactionHistory from "../TransactionHistory/TransactionHistory";
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -194,12 +195,16 @@ export default function StockDisplay({
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container className={gridClass.root} spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography>Last Five Transactions</Typography>
-                            {transactions.map(item => (
-                                <p key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${item.price}</p>
-                            ))}
-                        </Grid> 
+                        {displayType === "portfolio" && 
+                            <Grid item xs={12}>
+                            <TransactionHistory 
+                                transactions={transactions}
+                                stockData={stockData}
+                                stockSymbol={stockSymbol}
+                                stockHistory={stockHistory}
+                            />
+                            </Grid>
+                        }
                         <Grid item xs={6}>
                                 <List component="nav" aria-label="expanded stock info">
                                     <ListItem>
