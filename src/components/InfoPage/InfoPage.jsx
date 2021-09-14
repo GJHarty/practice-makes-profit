@@ -44,7 +44,6 @@ export default function InfoPage() {
     setDetailScreen(value);
   }
 
-
   return (
     <Grid container spacing={0}>
       <Grid item xs={4}>

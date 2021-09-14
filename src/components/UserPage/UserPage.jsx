@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import { useSelector } from 'react-redux';
 import { Grid, Typography, Container, Button, TextField } from '@material-ui/core';
@@ -10,9 +10,9 @@ function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [fundsToAdd, setFundsToAdd] = useState(0);
   const [newUsername, setNewUsername] = useState('');
-  const history = useHistory();
 
   /* const updateUsername = () => {
     console.log('updating username');
@@ -25,11 +25,9 @@ function UserPage() {
   const addFunds = () => {
     console.log('Adding Funds');
     dispatch({
-      type: 'INCREASE_BALANCES',
+      type: 'INCREASE_FUNDING',
       payload: {
-        totalCost: fundsToAdd,
-        availableBalance: user.availableBalance,
-        operator: 'increase',
+        fundsToAdd,
     }
     });
   }

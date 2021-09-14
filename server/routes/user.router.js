@@ -77,6 +77,26 @@ router.put('/', rejectUnauthenticated, (req,res) => {
     });
 });
 
+router.put('/funds/', rejectUnauthenticated, (req, res) => {
+  console.log('req.body', req.body);
+  const query = `
+  UPDATE "user"
+  SET "accountBalance"="accountBalance" + $1, "availableBalance"="availableBalance" + $1
+  WHERE "id"=$2;
+  `;
+
+  const params = [req.body.fundsToAdd, req.user.id];
+
+  pool.query(query, params)
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      console.log('Error increasing user funds', err);
+      res.sendStatus(500)
+    })
+});
+
 router.delete('/', rejectUnauthenticated, (req, res) => {
   const query = `
   DELETE FROM "user"
@@ -91,6 +111,24 @@ router.delete('/', rejectUnauthenticated, (req, res) => {
     })
     .catch(err => {
       console.log('Error deleting user form database', err);
+      res.sendStatus(500);
+    });
+})
+
+router.put('/first-visit', rejectUnauthenticated, (req, res) => {
+  const query = `
+  UPDATE "user"
+  SET "isFirstTime" = false
+  WHERE "id" = $1;
+  `;
+
+  const params = [req.user.id];
+
+  pool.query(query, params) 
+    .then(dbRes => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
       res.sendStatus(500);
     });
 })

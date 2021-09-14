@@ -50,11 +50,30 @@ function* deleteUser() {
   }
 }
 
+function* increaseFunding(action) {
+  try {
+    yield axios.put('/api/user/funds', action.payload);
+    yield fetchUser();
+  } catch (err) {
+    console.error('Error increasing funding', err);
+  }
+}
+
+function* updateFirstTime() {
+  try {
+    yield axios.put('/api/user/first-visit');
+  } catch (err) {
+    console.error('Error updating first time user value', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('DECREASE_BALANCES', decreaseBalances);
   yield takeLatest('INCREASE_BALANCES', increaseBalances);
   yield takeLatest('DELETE_USER', deleteUser);
+  yield takeLatest('INCREASE_FUNDING', increaseFunding);
+  yield takeLatest('UPDATE_FIRST_TIME', updateFirstTime);
 }
 
 export default userSaga;
