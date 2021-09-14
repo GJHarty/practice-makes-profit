@@ -17,7 +17,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
       symbol: req.query.symbol,
     },
   }).then(apiRes => {
-    console.log('apiRes.data', apiRes.data);
     res.send(apiRes.data);
   }).catch(err => {
     console.log('finnhub error', err);

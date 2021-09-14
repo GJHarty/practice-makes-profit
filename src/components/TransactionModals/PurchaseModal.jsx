@@ -44,7 +44,6 @@ export default function PurchaseModal({
 }) {
     const classes = useStyles();
     const gridClass = gridStyle();
-
     const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
@@ -68,7 +67,6 @@ export default function PurchaseModal({
             <Fade in={purchaseOpen}>
                 <div className={classes.paper}>
                     <div id="simple-modal-description">
-                        
                         <Grid 
                             container 
                             className={gridClass.root} 

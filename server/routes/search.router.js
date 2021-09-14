@@ -28,8 +28,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
-  console.log('req.user', req.user);
-  console.log('req.body', req.body);
   let time = new Date();
 
   const query = `

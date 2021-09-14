@@ -6,7 +6,6 @@ const {rejectUnauthenticated} = require('../modules/authentication-middleware');
 const axios = require('axios');
 
 router.get('/', rejectUnauthenticated, (req, res) => {
-    console.log('req.user', req.user);
     const query = `
     SELECT
         "stockSymbol",
@@ -33,7 +32,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 router.get('/transactions', rejectUnauthenticated, (req, res) => {
-  console.log('req.user', req.user);
   const query = `
   SELECT * FROM "purchasedStocks"
   WHERE "userId"=$1 AND "stockSymbol"=$2
@@ -45,7 +43,6 @@ router.get('/transactions', rejectUnauthenticated, (req, res) => {
   
   pool.query(query, params)
     .then(dbRes => {
-      console.log('transaction res', dbRes.rows);
       res.send(dbRes.rows);
     })
     .catch(err => {
@@ -55,8 +52,6 @@ router.get('/transactions', rejectUnauthenticated, (req, res) => {
 });
 
 router.delete('/', rejectUnauthenticated, (req, res) => {
-  console.log('req.body', req.body);
-
   const query = `
   DELETE FROM "purchasedStocks"
   WHERE "userId" = $1 AND "stockSymbol" = $2;

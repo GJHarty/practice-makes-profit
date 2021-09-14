@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Grid, Typography, Container, Button, TextField } from '@material-ui/core';
 import round from '../../round';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -11,6 +12,7 @@ function UserPage() {
   const dispatch = useDispatch();
   const [fundsToAdd, setFundsToAdd] = useState(0);
   const [newUsername, setNewUsername] = useState('');
+  const history = useHistory();
 
   /* const updateUsername = () => {
     console.log('updating username');
@@ -33,6 +35,7 @@ function UserPage() {
   }
 
   const deleteUser = () => {
+    history.push('/');
     dispatch({
       type: 'DELETE_USER',
     });

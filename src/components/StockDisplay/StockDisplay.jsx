@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from 'react';
-import { List, ListItem, makeStyles, Grid, Button, Typography } from "@material-ui/core"
+import { List, ListItem, makeStyles, Grid, Button } from "@material-ui/core"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -13,6 +13,10 @@ import SellModal from "../TransactionModals/SellModal";
 import { useEffect } from "react";
 import './StockDisplay.css';
 import TransactionHistory from "../TransactionHistory/TransactionHistory";
+import { useHistory } from "react-router";
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import directory from '../../stockDirectory';
 
 const gridStyle = makeStyles((theme) => ({
     root: {
@@ -40,7 +44,8 @@ export default function StockDisplay({
     const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
     const dispatch = useDispatch();
-    const [quantity, setQuantity] = useState(0);
+    const history = useHistory();
+    const [quantity, setQuantity] = useState(1);
     const [totalCost, setTotalCost] = useState(0);
     const [purchaseOpen, setPurchaseOpen] = useState(false);
     const [sellOpen, setSellOpen] = useState(false);
@@ -73,6 +78,7 @@ export default function StockDisplay({
                 }
             });
             handlePurchaseModalClose();
+            history.push('/portfolio');
         }
     }
 
@@ -149,7 +155,6 @@ export default function StockDisplay({
         });
     }
     
-
     return (
         <React.Fragment>
             <PurchaseModal 
@@ -179,15 +184,18 @@ export default function StockDisplay({
                     id="panel1a-header"
                 >
                     <div className={classes.heading}>
-                        {stockSymbol}  &nbsp;
-                        Current Price: ${round(stockData.c)} &nbsp;
-                        Day Change: {round(stockData.dp)}%
+                        {stockSymbol}  &nbsp;&nbsp;&nbsp;
+                        Current Price: ${round(stockData.c)} &nbsp;&nbsp;&nbsp;
+                        Day Change: {stockData.dp >= 0 ? 
+                            <><KeyboardArrowUpIcon style={{transform: 'translate(0%, 25%)'}}/> <span style={{color: 'green'}}>{round(stockData.dp)}%</span></> : 
+                            <><KeyboardArrowDownIcon style={{transform: 'translate(0%, 25%)'}}/> <span style={{color: 'red'}}>{round(stockData.dp)}%</span></>
+                            }
                         {(dbData && (dbData.totalQuantity > 0)) &&
                             <div>
                                 <p>
                                     Quantity Owned: {dbData.totalQuantity} &nbsp;
                                     Average Purchase Price: ${round(dbData.avgPrice)} &nbsp;
-                                    Total Holdings: ${round(dbData.totalHoldings)}
+                                    Total Holdings: ${round(dbData.totalQuantity * stockData.c)}
                                 </p>
                             </div>
                         }
@@ -223,7 +231,6 @@ export default function StockDisplay({
                                     </ListItem>
                                 </List>
                         </Grid>
-
                         <Grid item xs={6}>
                                 <HistoryGraph 
                                     stockSymbol={stockSymbol}
@@ -281,15 +288,14 @@ export default function StockDisplay({
                                 </Grid>
                                 <Grid item xs={4} align="center">
                                     {dbData.totalQuantity < 1 &&
-                                    <Button
-                                        variant="contained"
-                                        color="secondary"
-                                        onClick={removeFromPortfolio}
-                                    >
-                                        Remove
-                                    </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={removeFromPortfolio}
+                                        >
+                                            Remove
+                                        </Button>
                                     }
-                                    
                                 </Grid>
                                 <Grid item xs={4} align="center">
                                     <Button 

@@ -49,8 +49,16 @@ export default function SearchPage() {
 
   const cardSearch = (symbol) => {
     setSearch(symbol);
-    console.log('card search', search);
-    searchOnClick();
+    console.log('card search', symbol);
+      dispatch({
+        type: 'FETCH_STOCK_DETAILS',
+        payload: symbol,
+    });
+    dispatch({
+      type: 'FETCH_STOCK_HISTORY',
+      payload: symbol,
+    });
+    setIsStockDisplayed(true);
   }
 
   const searchForSymbol = () => {
@@ -108,11 +116,11 @@ export default function SearchPage() {
                       <Button 
                         variant="outlined" 
                         color="default" 
+                        
                         onClick={() => cardSearch(result.symbol)}
                       >
                         {result.symbol}
-                      </Button> 
-                      
+                      </Button>  
                     </p>
                   </Grid>
                 ))}

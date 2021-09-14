@@ -44,4 +44,5 @@
 .navLink:hover {
   /* background-color: #d1d0cd; */
   text-decoration: underline;
+  font-weight: bold;
 }

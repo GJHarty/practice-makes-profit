@@ -19,13 +19,24 @@ export default function Portfolio() {
   // a default value of 'Functional Component'
   const store = useSelector((store) => store);
   const user = useSelector((store) => store.user);
-  const detailedPortfolio = store.detailedPortfolio;
+  const portfolio = store.portfolio;
+  // sorting our detailedPortfolio so that we can binf
+  const detailedPortfolio = store.detailedPortfolio.sort((a,b) => (a.stockSymbol > b.stockSymbol) ? 1 : ((b.stockSymbol > a.stockSymbol) ? -1 : 0));
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const [heading, setHeading] = useState('Portfolio');
-  let totalBalance = 0;
-  const [portfolioBalance, setPortfolioBalance] = useState(0);
+
+  let portfolioBalance = 0;
+  if (detailedPortfolio.length === portfolio.length) {
+    for (let i = 0; i < portfolio.length; i++) {
+      
+      portfolioBalance += (portfolio[i].totalQuantity * detailedPortfolio[i].data.c)
+      
+    }
+  }
+
+  let roi = round((portfolioBalance + user.availableBalance) / user.accountBalance * 100);
 
   useEffect(() => {
     dispatch({
@@ -36,23 +47,20 @@ export default function Portfolio() {
     });
   }, []);
   
-  // logic for creating a total balance including holdings. not working atm
-  useEffect(() => {
-    for (let holding of detailedPortfolio) {
-      totalBalance += holding.dbData.totalHoldings;
-      setPortfolioBalance(portfolioBalance + totalBalance)
-    }
-    setPortfolioBalance(totalBalance);
-    return totalBalance
-  }, [user])
+  
 
   return (
     <div>
       <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
         <Typography variant="h2">{heading}</Typography>
-        <Typography variant="h4">Available Balance: ${round(user.availableBalance)}</Typography>
+        {portfolio.length === detailedPortfolio.length && 
+        <>
         <Typography variant="h4">Portfolio Value: ${round(portfolioBalance)}</Typography>
+        <Typography variant="h4">Base Funds: ${user.accountBalance}</Typography>
         <Typography variant="h4">Total Holdings: ${round(portfolioBalance + user.availableBalance)}</Typography>
+        <Typography variant="h4">Return on Investments: {roi}%</Typography>
+        </>
+        }
         {detailedPortfolio.map(stock => (
           <StockDisplay 
             key={stock.data.c}

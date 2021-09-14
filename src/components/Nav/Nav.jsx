@@ -4,7 +4,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import {  useSelector } from 'react-redux';
 import round from '../../round';
-import { Typography } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import logo from './images/white-text.jpg';
 
@@ -30,9 +30,9 @@ function Nav() {
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
-            {/* <Link classname="navLink" to="/portfolio" style={{color: 'white'}}> */}
-            <p className="navLink">Available Balance: ${round(user.availableBalance)}</p>
-            {/* </Link> */}
+            <Link className="navLink" to="/search">
+            {/* <p className="navLink"> */}Available Balance: ${round(user.availableBalance)}{/* </p> */}
+            </Link>
             {/* <p className="navLink">Portfolio Value: ${round(user.accountBalance)}</p> */}
             &emsp;
             &emsp;
@@ -55,15 +55,16 @@ function Nav() {
             &emsp;
             <Link className="navLink" to="/user">
               Account
+              {/* <AccountCircleIcon style={{fontSize: '30px', transform: 'translate(-50%,35%)'}}/> */}
             </Link>
 
             <LogOutButton className="navLink" />
           </>
         )}
 
-        <Link className="navLink" to="/about">
+        {/* <Link className="navLink" to="/about">
           About
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
