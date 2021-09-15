@@ -37,6 +37,7 @@ function UserPage() {
     dispatch({
       type: 'DELETE_USER',
     });
+    
   }
 
   return (

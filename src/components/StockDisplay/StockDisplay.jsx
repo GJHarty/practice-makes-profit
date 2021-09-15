@@ -91,6 +91,7 @@ export default function StockDisplay({
 
     const sellStock = () => {
         console.log('selling stock');
+        totalCost = (quantity * stockData.c);
         if (Number(quantity) > Number(dbData.totalQuantity)) {
             console.log('Attempting to sell too many stocks');
             alert('You cannot sell more stocks than you have. Please try again.');
