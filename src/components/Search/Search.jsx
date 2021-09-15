@@ -85,16 +85,16 @@ export default function SearchPage() {
               <Typography variant="h2">{heading}</Typography>
             </Grid>
             <Grid item xs={6}>
-              <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSearch(event.target.value)}>
-                <TextField id="standard-basic" label="Enter Ticker" /> 
-              </form>
-              <Button variant="contained" color="primary" onClick={searchOnClick}>Submit</Button>
-            </Grid>
-            <Grid item xs={6}>
               <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSymbolSearch(event.target.value)}>
-                <TextField id="standard-basic" label="Enter Company Name" /> 
+                <TextField id="standard-basic" label="Enter Keyword" /> 
               </form>
               <Button variant="contained" color="primary" onClick={searchForSymbol}>Submit</Button>
+            </Grid>
+            <Grid item xs={6}>
+              <form className={classes.root} noValidate autoComplete="off" onChange={(event) => setSearch(event.target.value)}>
+                <TextField id="standard-basic" label="Enter Ticker Symbol" /> 
+              </form>
+              <Button variant="contained" color="primary" onClick={searchOnClick}>Submit</Button>
             </Grid>
             <Grid item xs={12}>
               {isStockDisplayed &&

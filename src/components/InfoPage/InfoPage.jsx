@@ -46,7 +46,7 @@ export default function InfoPage() {
 
   return (
     <Grid container spacing={0}>
-      <Grid item xs={4}>
+      <Grid item xs={3}>
     <List
       component="nav"
       aria-labelledby="nested-list-subheader"
