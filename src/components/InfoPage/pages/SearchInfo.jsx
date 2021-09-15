@@ -1,5 +1,5 @@
 import React from 'react';
-import video from './video/App.mp4';
+import video from './video/search.mp4';
 import ReactPlayer from 'react-player';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 
@@ -70,7 +70,7 @@ export default function SearchInfo() {
         </Grid>
         <Grid item xs={6}>
           <Typography>
-            <ReactPlayer url={video} width="50%" height="50%" controls={true} />
+            <ReactPlayer url={video} width="100%" height="100%" controls={true} />
           </Typography>
         </Grid>
       </Grid>

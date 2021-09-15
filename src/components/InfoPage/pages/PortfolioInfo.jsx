@@ -1,5 +1,7 @@
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 import React from 'react';
+import video from './video/portfolio.mp4';
+import ReactPlayer from 'react-player';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +21,7 @@ export default function PortfolioInfo() {
 
   return (
     <div>
-      <Grid container spacing={6} justifyContent="center" alignItems="center">
+      <Grid container spacing={6} >
         <Grid item xs={3}>
         </Grid>
         <Grid item xs={6}>
@@ -31,7 +33,7 @@ export default function PortfolioInfo() {
         </Grid>
         <Grid item xs={3}>
         </Grid>
-        <Grid item xs={6} sm={6} justifyContent="center" alignItems="center">
+        <Grid item xs={6} sm={6}>
           <Typography>
               Here is where you can view all purchased stocks. The display will change a little bit depending on how many you own.
               You can expand the display and click on the tabs to navigate to different information. The default display will show
@@ -55,6 +57,13 @@ export default function PortfolioInfo() {
             This button will populate once you have no more shares to sell. This will permanently remove the stock from your portfolio
             including the transaction history, so be careful as there is no way to retrieve that information.
           </Typography>
+        </Grid>
+        <Grid item xs={3}>
+        </Grid>
+        <Grid item xs={6}>
+          <ReactPlayer url={video} width="100%" height="100%" controls={true} />
+        </Grid>
+        <Grid item xs={3}>
         </Grid>
       </Grid>
     </div>
