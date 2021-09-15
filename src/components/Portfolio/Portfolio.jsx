@@ -54,12 +54,12 @@ export default function Portfolio() {
       <Container maxWidth="md" style={{ backgroundColor: '#ffffff', height: '170vh'}}>
         <Typography variant="h2">{heading}</Typography>
         {portfolio.length === detailedPortfolio.length && 
-        <>
+        <div>
         <Typography variant="h4">Portfolio Value: ${round(portfolioBalance)}</Typography>
         <Typography variant="h4">Base Funds: ${user.accountBalance}</Typography>
         <Typography variant="h4">Total Holdings: ${round(portfolioBalance + user.availableBalance)}</Typography>
         <Typography variant="h4">Return on Investments: {roi}%</Typography>
-        </>
+        </div>
         }
         {detailedPortfolio.map(stock => (
           <StockDisplay 

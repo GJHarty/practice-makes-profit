@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Button, makeStyles, Grid, Typography } from '@material-ui/core';
 import StockDisplay from '../StockDisplay/StockDisplay';
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchPage() {
   const store = useSelector((store) => store);
-  const user = useSelector((store) => store.user);
+  const user = useSelector(store => store.user);
   const stockData = useSelector(store => store.search);
   const history = useSelector(store => store.history);
 
@@ -28,6 +28,7 @@ export default function SearchPage() {
   const [symbolSearch, setSymbolSearch] = useState('');
   const [isStockDisplayed, setIsStockDisplayed] = useState(false);
   const [symbolResults, setSymbolResults] = useState([]);
+
 
   // we need to grab just a single stock on the search page 
   const setStockDetails = () => {
@@ -103,6 +104,7 @@ export default function SearchPage() {
                   stockData={stockData}
                   displayType="search"
                   stockHistory={history}
+                  user={user}
                 /> 
               }
             </Grid>

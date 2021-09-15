@@ -46,11 +46,7 @@ export default function SellModal({
     const classes = useStyles();
     const gridClass = gridStyle();
 
-    const [totalCost, setTotalCost] = useState(0);
-
-    useEffect(() => {
-        setTotalCost(stockData.c * quantity);
-    }, [quantity]);
+    let totalCost = stockData.c * quantity;
 
   return (
     <div>

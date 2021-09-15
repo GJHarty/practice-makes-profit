@@ -39,23 +39,22 @@ export default function StockDisplay({
     displayType, 
     stockHistory, 
     dbData,
-    transactions
+    transactions,
 }) {
-    const user = useSelector((store) => store.user);
+    // const user = useSelector((store) => store.user);
     const gridClass = gridStyle();
     const dispatch = useDispatch();
     const history = useHistory();
-    const [quantity, setQuantity] = useState(1);
-    const [totalCost, setTotalCost] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const user = useSelector(store => store.user);
+    // const [totalCost, setTotalCost] = useState(0);
+    let totalCost = 0;
     const [purchaseOpen, setPurchaseOpen] = useState(false);
     const [sellOpen, setSellOpen] = useState(false);
 
-    useEffect(() => {
-        setTotalCost(quantity * stockData.c);
-    }, [quantity]);
-
     const purchaseStock = () => {
         console.log('buying stock');
+        totalCost = (quantity * stockData.c);
         if (totalCost > user.availableBalance) {
             console.log('Purchase exceeds available balance');
             alert('You do not have enough funds available to purchase that quantity. Please try again.');

@@ -30,9 +30,9 @@ function Nav() {
         {/* If a user is logged in, show these links */}
         {user.id && (
           <>
-            <Link className="navLink" to="/search">
-            {/* <p className="navLink"> */}Available Balance: ${round(user.availableBalance)}{/* </p> */}
-            </Link>
+            {/* <Link className="navLink" to="/search"> */}
+            <p className="navLink">Available Balance: ${round(user.availableBalance)}</p>
+            {/* </Link> */}
             {/* <p className="navLink">Portfolio Value: ${round(user.accountBalance)}</p> */}
             &emsp;
             &emsp;

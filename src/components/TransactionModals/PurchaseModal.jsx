@@ -40,15 +40,11 @@ export default function PurchaseModal({
     purchaseStock, 
     handlePurchaseModalClose, 
     quantity, 
-    setQuantity
+    setQuantity,
 }) {
     const classes = useStyles();
     const gridClass = gridStyle();
-    const [totalCost, setTotalCost] = useState(0);
-
-    useEffect(() => {
-        setTotalCost(stockData.c * quantity);
-    }, [quantity]);
+    let totalCost = stockData.c * quantity;
 
   return (
     <div>
@@ -85,7 +81,7 @@ export default function PurchaseModal({
                                 <h3>Please select quantity:</h3>
                             </Grid>
                             <Grid item xs={4}>
-                                <Typography>Total Cost: ${round(totalCost)}</Typography>
+                                <Typography>Total Cost: ${round(quantity * stockData.c)}</Typography>
                             </Grid>
                             <Grid item xs={4}>
                                 <Typography>Updated Balance: ${round(user.availableBalance - totalCost)}</Typography>
