@@ -64,6 +64,11 @@ export default function TransactionHistory({
     setValue(newValue);
   };
 
+  function formatDate(date) {
+    let d = new Date(date);
+    return d.toLocaleDateString();
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -76,7 +81,7 @@ export default function TransactionHistory({
       <TabPanel value={value} index={0}>
       <List component="nav" aria-label="transaction history display">
         {transactions.map(item => (
-            <ListItem key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${round(item.price) } Date: {item.timestamp}</ListItem>
+            <ListItem key={item.id}>{item.isBoughtOrSold ? 'Buy' : 'Sell'} Quantity: {Math.abs(item.quantity)} Price: ${round(item.price) } Date: {formatDate(item.timestamp)}</ListItem>
         ))}
       </List>
       </TabPanel>

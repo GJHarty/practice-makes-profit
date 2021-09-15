@@ -154,6 +154,8 @@ export default function StockDisplay({
             }
         });
     }
+
+    
     
     return (
         <React.Fragment>

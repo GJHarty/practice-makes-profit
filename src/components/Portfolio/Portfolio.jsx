@@ -46,8 +46,6 @@ export default function Portfolio() {
       type: 'FETCH_PORTFOLIO',
     });
   }, []);
-  
-  
 
   return (
     <div>
