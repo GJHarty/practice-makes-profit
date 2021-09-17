@@ -55,7 +55,6 @@ export default function Portfolio() {
         <div>
         <Typography variant="h4">Portfolio Value: ${round(portfolioBalance)}</Typography>
         <Typography variant="h4">Base Funds: ${user.accountBalance}</Typography>
-        <Typography variant="h4">Total Holdings: ${round(portfolioBalance + user.availableBalance)}</Typography>
         <Typography variant="h4">Return on Investments: {roi}%</Typography>
         </div>
         }
