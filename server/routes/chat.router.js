@@ -25,4 +25,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
+router.get('/', rejectUnauthenticated, (req, res) => {
+    const query = `
+    SELECT *
+    FROM "chat"
+    WHERE "userId"=$1
+    ORDER BY "timeStamp" ASC
+    `;
+  
+    const params = [req.user.id];
+    
+    pool.query(query, params)
+      .then(dbRes => {
+        console.log(dbRes.rows);
+        res.send(dbRes.rows);
+      })
+      .catch(err => {
+        console.log('error posting purchased stock', err);
+        res.sendStatus(500);
+      });
+});
+
 module.exports = router;
