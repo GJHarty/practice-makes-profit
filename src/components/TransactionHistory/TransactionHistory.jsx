@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import { List, ListItem } from '@material-ui/core';
 import round from '../../round';
 import HistoryGraph from '../HistoryGraph/HistoryGraph';
+import ChatDisplay from '../LabComponents/ChatDisplay/ChatDisplay';
 
 
 function TabPanel(props) {
@@ -76,6 +77,7 @@ export default function TransactionHistory({
           <Tab label="Transaction History" {...a11yProps(0)} />
           <Tab label="Current Day Values" {...a11yProps(1)} />
           <Tab label="History" {...a11yProps(2)} />
+          <Tab label="Chat" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -106,6 +108,9 @@ export default function TransactionHistory({
             stockSymbol={stockSymbol}
             stockHistory={stockHistory}
         />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <ChatDisplay />
       </TabPanel>
     </div>
   );
