@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ChatDisplay() {
+export default function ChatDisplay({ stockSymbol }) {
 
   const store = useSelector((store) => store);
   const user = store.user;
@@ -38,8 +38,10 @@ export default function ChatDisplay() {
 
   const sendChat = () => {
     console.log('newChat', newChat);
+    console.log('stockSymbol', stockSymbol);
     axios.post('/api/chat', {
-        newChat
+        newChat,
+        stockSymbol
       }).then(response => {
         fetchChat();
       }).catch(err => {
@@ -48,7 +50,7 @@ export default function ChatDisplay() {
   }
 
   const fetchChat = () => {
-    axios.get('/api/chat')
+    axios.get('/api/chat', { params: { stockSymbol }})
       .then(response => {
         console.log('chat data is ', response.data);
         setChatList(response.data);
@@ -67,49 +69,29 @@ export default function ChatDisplay() {
         </Grid>
       </Grid>
       <Grid container component={Paper} className={classes.chatSection}>
-        <Grid item xs={3} className={classes.borderRight500}>
-            <List>
-                <ListItem button key="RemySharp">
-                    <ListItemIcon>
-                      <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                    </ListItemIcon>
-                    <ListItemText primary="John Wick"></ListItemText>
-                </ListItem>
-            </List>
-            <Divider />
-            <Grid item xs={12} style={{padding: '10px'}}>
-                <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth />
-            </Grid>
-            <Divider />
-            <List>
-                <ListItem button key="RemySharp">
-                    <ListItemIcon>
-                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                    </ListItemIcon>
-                    <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-                    <ListItemText secondary="online" align="right"></ListItemText>
-                </ListItem>
-            </List>
-        </Grid>
         <Grid item xs={9}>
             <List className={classes.messageArea}>
                 {chatList.map(item => (
-                  <ListItem key={item.message}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        {user.id === item.userId ?
-                        <ListItemText align="right" primary={item.message}></ListItemText> :
-                        <ListItemText align="left" primary={item.message}></ListItemText> 
-                        }
+                  <>
+                  {item.stockSymbol === stockSymbol &&
+                    <ListItem key={item.message}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          {user.id === item.userId ?
+                          <ListItemText align="right" primary={item.message}></ListItemText> :
+                          <ListItemText align="left" primary={item.message}></ListItemText> 
+                          }
+                        </Grid>
+                        <Grid item xs={12}>
+                          {user.id === item.userId ?
+                              <ListItemText align="right" secondary={item.timeStamp}></ListItemText> :
+                              <ListItemText align="left" primary={item.timeStamp}></ListItemText> 
+                          }
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12}>
-                        {user.id === item.userId ?
-                            <ListItemText align="right" secondary={item.timeStamp}></ListItemText> :
-                            <ListItemText align="left" primary={item.timeStamp}></ListItemText> 
-                        }
-                      </Grid>
-                    </Grid>
-                  </ListItem>
+                    </ListItem>
+                  }
+                  </>
                 ))}
             </List>
             <Divider />
@@ -122,7 +104,6 @@ export default function ChatDisplay() {
                 />
             </Grid>
             <Grid item xs={1} align="right">
-              {newChat}
               <Button variant="contained" color="primary" onClick={sendChat}>
                 Send
               </Button>

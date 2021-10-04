@@ -110,7 +110,9 @@ export default function TransactionHistory({
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ChatDisplay />
+        <ChatDisplay 
+          stockSymbol={stockSymbol}
+        />
       </TabPanel>
     </div>
   );

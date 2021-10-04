@@ -7,14 +7,15 @@ const axios = require('axios');
 
 
 router.post('/', rejectUnauthenticated, (req, res) => {
-    console.log('chat is', req.body.newChat);
+    console.log('chat is', req.body);
+    console.log('params are');
     const query = `
     INSERT INTO "chat"
-        ("message","userId")
+        ("message","userId", "stockSymbol")
     VALUES
-        ($1, $2);
+        ($1, $2, $3);
     `;
-    const params = [req.body.newChat, req.user.id];
+    const params = [req.body.newChat, req.user.id, req.body.stockSymbol];
     pool.query(query, params)
         .then(dbRes => {
             res.sendStatus(200);
@@ -29,11 +30,11 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     const query = `
     SELECT *
     FROM "chat"
-    WHERE "userId"=$1
+    WHERE "stockSymbol"=$1
     ORDER BY "timeStamp" ASC
     `;
   
-    const params = [req.user.id];
+    const params = [req.query.stockSymbol];
     
     pool.query(query, params)
       .then(dbRes => {
